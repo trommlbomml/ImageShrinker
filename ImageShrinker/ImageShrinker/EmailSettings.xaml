@@ -1,0 +1,23 @@
+﻿<Window x:Class="ImageShrinker.EmailSettings"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Einstellungen für den E-Mail Versandt"
+        SizeToContent="WidthAndHeight">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" Margin="2" Text="Anmeldung" />
+        <StackPanel Grid.Row="1" Orientation="Horizontal">
+            <Label Padding="0" Content="Benutzername:" Width="100" />
+            <TextBox Width="100" />
+        </StackPanel>
+        <StackPanel Grid.Row="2" Orientation="Horizontal">
+            <Label Padding="0" Content="Benutzername:" Width="100" />
+            <TextBox Width="100" />
+        </StackPanel>
+    </Grid>
+</Window>

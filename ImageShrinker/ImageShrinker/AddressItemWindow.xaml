@@ -1,0 +1,31 @@
+﻿<Window x:Class="ImageShrinker.AddressItemWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="AddressItemWindow" 
+        SizeToContent="WidthAndHeight"
+        ResizeMode="NoResize"
+        ShowInTaskbar="False"
+        Background="{DynamicResource WindowBackgoundBrush}"
+        WindowStartupLocation="CenterOwner">
+    <StackPanel>
+        <TextBlock Margin="2" Text="Bitte Name und Adresse angeben:" />
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="200" />
+            </Grid.ColumnDefinitions>
+            <Label Content="_Name:" Grid.Row="0" Grid.Column="0" Padding="0" VerticalAlignment="Center" Margin="2"/>
+            <Label Content="_E-Mail Adresse:" Grid.Row="1" Grid.Column="0" Padding="0" VerticalAlignment="Center" Margin="2" />
+            <TextBox Grid.Row="0" Grid.Column="1" Margin="2" Text="{Binding Path=Name,UpdateSourceTrigger=PropertyChanged}" />
+            <TextBox Grid.Row="1" Grid.Column="1" Margin="2" Text="{Binding Path=EMailAdress,UpdateSourceTrigger=PropertyChanged}"/>
+        </Grid>
+        <StackPanel FlowDirection="RightToLeft" Orientation="Horizontal" Margin="0,2">
+            <Button Content="Abbrechen" Margin="0,0,4,0" Padding="2,0" IsCancel="True" />
+            <Button Content="OK" Margin="4,0" Padding="20,0" IsDefault="True" Click="Button_OKClick"/>
+        </StackPanel>
+    </StackPanel>
+</Window>

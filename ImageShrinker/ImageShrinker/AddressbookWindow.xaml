@@ -1,0 +1,65 @@
+﻿<Window x:Class="ImageShrinker.AddressbookWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Adressbuch" 
+        Height="200" Width="350"
+        MinHeight="200" MinWidth="350"
+        Icon="Images/adressbook.png"
+        WindowStartupLocation="CenterOwner"
+        ShowInTaskbar="False">
+    <Window.Resources>
+        <DataTemplate x:Key="ChooseAddressDataTemplate">
+            <CheckBox IsChecked="{Binding Path=IsSelected}" />
+        </DataTemplate>
+        <Style TargetType="{x:Type Button}" x:Key="DisableIfNoSelection">
+            <Setter Property="IsEnabled" Value="True" />
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding ElementName=addressListView,Path=SelectedIndex}" Value="-1">
+                    <Setter Property="IsEnabled" Value="False" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        <DataTemplate x:Key="NameDataTemplate">
+            <TextBlock TextTrimming="CharacterEllipsis" Text="{Binding Path=Name}" />
+        </DataTemplate>
+        <DataTemplate x:Key="EMailAddressDataTemplate">
+            <TextBlock TextTrimming="CharacterEllipsis" Text="{Binding Path=EMailAdress}" />
+        </DataTemplate>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <TextBlock Grid.Row="0" Text="Bitte E-Mail Adressen wählen:" Margin="2" />
+        <ListView x:Name="addressListView" Grid.Row="1" ItemsSource="{Binding Path=AddressItems}" Margin="2" SelectionMode="Single">
+            <ListView.View>
+                <GridView AllowsColumnReorder="false">
+                    <GridViewColumn CellTemplate="{StaticResource ChooseAddressDataTemplate}" Width="Auto" />
+                    <GridViewColumn Header="Name" CellTemplate="{StaticResource NameDataTemplate}" Width="Auto" />
+                    <GridViewColumn Header="E-Mail Adresse" CellTemplate="{StaticResource EMailAddressDataTemplate}" Width="Auto" />
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <StackPanel Grid.Column="1" Grid.Row="1" Margin="2">
+            <Button ToolTip="Adresse bearbeiten" Click="Button_EditAddressClick" Style="{StaticResource DisableIfNoSelection}">
+                <Image Source="Images/editaddress.png" Width="16" Height="16" />
+            </Button>
+            <Button ToolTip="Adresse hinzufügen" Click="Button_AddAddressClick">
+                <Image Source="Images/addaddress.png" Width="16" Height="16" />
+            </Button>
+            <Button ToolTip="Adresse löschen" Click="Button_DeleteAddressClick"  Style="{StaticResource DisableIfNoSelection}">
+                <Image Source="Images/removeaddress.png" Width="16" Height="16" />
+            </Button>
+        </StackPanel>
+        <StackPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Margin ="0,2" Orientation="Horizontal" FlowDirection="RightToLeft">
+            <Button Content="Abbrechen" IsCancel="True" Margin="4,0,0,0" Padding="4,2"/>
+            <Button Content="OK" IsDefault="True" Margin="4,0" Padding="20,2" Click="Button_OKClick"/>
+        </StackPanel>
+    </Grid>
+</Window>

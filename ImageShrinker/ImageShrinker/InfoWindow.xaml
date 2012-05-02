@@ -1,0 +1,36 @@
+﻿<Window x:Class="ImageShrinker.InfoWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Über ImageShrinker" Height="190" Width="300"
+        ResizeMode="NoResize"
+        ShowInTaskbar="False"
+        AllowsTransparency="True"
+        WindowStyle="None"
+        Background="Transparent"
+        WindowStartupLocation="CenterOwner"
+        Icon="images/info.png">
+    <Border CornerRadius="6" Margin="10" Background="{DynamicResource WindowDarkBackgroundBrush}">
+        <Border.Effect>
+            <DropShadowEffect 
+                    Color="White"
+                    BlurRadius="8"
+                    ShadowDepth="0"
+                          />
+        </Border.Effect>
+            <Grid Margin="4">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" Text="ImageShrinker 1.0" FontSize="20" HorizontalAlignment="Center"/>
+                <TextBlock Grid.Row="1" Margin="0,10,0,0" Text="Ein Programm zum Verkleinern von" />
+                <TextBlock Grid.Row="2" Text="Bildersammlungen für E-Mail-Anhänge." />
+                <TextBlock Grid.Row="3" Margin="0,20,5,0" Text="Copyright 2011 @ Peter Friedland" />
+                <Button Grid.Row="5" Margin="2" Width="80" Click="Button_Click">OK</Button>
+            </Grid>
+    </Border>
+</Window>

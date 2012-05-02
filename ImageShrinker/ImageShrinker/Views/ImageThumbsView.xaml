@@ -1,0 +1,24 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <DataTemplate x:Key="ImageThumbDataTemplate">
+        <Grid Margin="2">
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <CheckBox VerticalAlignment="Top" Margin="2,2,8,2" Grid.Row="0" Grid.RowSpan="3" Grid.Column="0" IsChecked="{Binding Path=IsSelected}" />
+            <TextBlock Margin="1" Grid.Row="0" Grid.Column="1" Text="Name:" />
+            <TextBlock Margin="1" Grid.Row="1" Grid.Column="1" Text="Breite:" />
+            <TextBlock Margin="1" Grid.Row="2" Grid.Column="1" Text="Höhe:" />
+            <TextBlock Margin="1" Grid.Row="0" Grid.Column="2" Text="{Binding Path=FileName}" />
+            <TextBlock Margin="1" Grid.Row="1" Grid.Column="2" Text="{Binding Path=Width}" />
+            <TextBlock Margin="1" Grid.Row="2" Grid.Column="2" Text="{Binding Path=Height}" />
+        </Grid>
+    </DataTemplate>
+</ResourceDictionary>

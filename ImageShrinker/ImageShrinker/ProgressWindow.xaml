@@ -1,0 +1,49 @@
+﻿<Window x:Class="ImageShrinker.ProgressWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Width="300"
+        ResizeMode="NoResize"
+        ShowInTaskbar="False"
+        WindowStartupLocation="CenterOwner"
+        Icon="images/shrinkicon.png"
+        AllowsTransparency="True"
+        WindowStyle="None"
+        Background="Transparent"
+        SizeToContent="Height">
+    <Border CornerRadius="6" Margin="10" Background="{DynamicResource WindowDarkBackgroundBrush}">
+        <Border.Effect>
+                <DropShadowEffect 
+                    Color="White"
+                    BlurRadius="8"
+                    ShadowDepth="0"
+                          />
+        </Border.Effect>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0"
+                x:Name="_informationText"
+                Margin="10,6,10,2"
+                VerticalAlignment="Center"
+                TextTrimming="CharacterEllipsis"
+                />
+            <ProgressBar 
+                Grid.Row="1" 
+                Margin="10,2" 
+                Height="20" 
+                x:Name="_progressBar"  />
+            <StackPanel Grid.Row="2">
+                <Button 
+                    Content="Abbrechen" 
+                    IsCancel="True" 
+                    HorizontalAlignment="Center" 
+                    Padding="10,0,10,0" 
+                    Width="Auto" 
+                    Margin="4"/>
+            </StackPanel>
+        </Grid>
+    </Border>
+</Window>

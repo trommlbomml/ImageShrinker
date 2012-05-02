@@ -1,0 +1,54 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="ImageShrinker.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="GmxSMTP" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">mail.gmx.net</Value>
+    </Setting>
+    <Setting Name="ProviderIndex" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="UserName" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="UserPassword" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="EMailAdress" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="TOnlineSMTP" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">smtpmail.t-online.de</Value>
+    </Setting>
+    <Setting Name="GoogleMailSMTP" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">smtp.googlemail.com</Value>
+    </Setting>
+    <Setting Name="WebDeSMTP" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">smtp.web.de</Value>
+    </Setting>
+    <Setting Name="FreeNetSMTP" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">mx.freenet.de</Value>
+    </Setting>
+    <Setting Name="HotmailSMTP" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">smtp.live.com</Value>
+    </Setting>
+    <Setting Name="TOnlinePOP3" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">popmail.t-online.de</Value>
+    </Setting>
+    <Setting Name="GoogleMailPOP3" Type="System.String" Scope="User">
+      <Value Profile="(Default)">pop.googlemail.com</Value>
+    </Setting>
+    <Setting Name="WebDePOP3" Type="System.String" Scope="User">
+      <Value Profile="(Default)">pop3.web.de</Value>
+    </Setting>
+    <Setting Name="FreeNetPOP3" Type="System.String" Scope="User">
+      <Value Profile="(Default)">mx.freenet.de</Value>
+    </Setting>
+    <Setting Name="HotmailPOP3" Type="System.String" Scope="User">
+      <Value Profile="(Default)">pop3.live.com</Value>
+    </Setting>
+    <Setting Name="GmxPOP3" Type="System.String" Scope="User">
+      <Value Profile="(Default)">pop.gmx.net</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

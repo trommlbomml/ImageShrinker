@@ -1,0 +1,210 @@
+﻿<Window x:Class="ImageShrinker.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+        Title="ImageShrinker" MinHeight="480" MinWidth="600" Width="640" Height="480"
+        Icon="images/shrinkicon.png"
+        Background="{DynamicResource DarkBackgoundBrush}"
+        WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Views/ImageThumbsView.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" MinWidth="180"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        
+        <Menu Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
+            <MenuItem Header="Bilder">
+                <MenuItem Header="Hinzufügen" Click="MenuItem_AddImagesClick">
+                    <MenuItem.Icon>
+                        <Image Source="images/addimages.png"  Width="16" Height="16"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Aus Ordner hinzufügen" Click="MenuItem_AddFromFolderClick">
+                    <MenuItem.Icon>
+                        <Image Source="images/addfromfolder.png"  Width="16" Height="16"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+            <MenuItem Header="Speichern">
+                <MenuItem Header="In einem Verzeichnis" Click="MenuItem_SaveToFolderClick">
+                    <MenuItem.Icon>
+                        <Image Source="images/savetofolder.png"  Width="16" Height="16"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Als gepackte Datei" Click="MenuItem_PackToClick" >
+                    <MenuItem.Icon>
+                        <Image Source="images/savetozip.png"  Width="16" Height="16"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+            <MenuItem Header="Versenden">
+                <MenuItem Header="Per E-Mail" Click="MenuItem_SendPerMailClick">
+                    <MenuItem.Icon>
+                        <Image Source="Images/email.png" Width="16" Height="16" />
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+            <MenuItem Header="Info">
+                <MenuItem Header="Info" Click="MenuItem_InfoClick">
+                    <MenuItem.Icon>
+                        <Image Source="images/info.png"  Width="16" Height="16"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+        </Menu>
+        
+        <ToolBarTray Grid.Row="1"  Grid.Column="0" Grid.ColumnSpan="2">
+            <ToolBar>
+                <Button ToolTip="Bilder hinzufügen" Click="MenuItem_AddImagesClick">
+                    <Image Source="images/addimages.png"  Width="16" Height="16"/>
+                </Button>
+                <Button ToolTip="Bilder aus Ordner hinzufügen" Click="MenuItem_AddFromFolderClick">
+                    <Image Source="images/addfromfolder.png"  Width="16" Height="16"/>
+                </Button>
+                <Separator Margin="2,0" />
+                <Button ToolTip="Im Verzeichnis speichern" Click="MenuItem_SaveToFolderClick">
+                    <Image Source="images/savetofolder.png"  Width="16" Height="16"/>
+                </Button>
+                <Button ToolTip="Als gepackte Datei speichern" Click="MenuItem_PackToClick">
+                    <Image Source="images/savetozip.png"  Width="16" Height="16"/>
+                </Button>
+                <Separator Margin="2,0" />
+                <Button ToolTip="Per E-Mail versenden" Click="MenuItem_SendPerMailClick">
+                    <Image Source="Images/email.png" Width="16" Height="16" />
+                </Button>
+            </ToolBar>
+        </ToolBarTray>
+        
+        <Grid Grid.Row="2" Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            
+            <ListView 
+                Grid.Row="0"
+                x:Name="_listViewThumbs"
+                Margin="2" 
+                ItemsSource="{Binding Path=ImageThumbs}" 
+                ItemTemplate="{StaticResource ImageThumbDataTemplate}"
+                SelectionChanged="ListView_SelectionChanged">
+                <ListView.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Alle Bilder auswählen" Click="SelectAllImages_Click"/>
+                        <MenuItem Header="Gewählte Bilder demarkieren" Click="DeSelectAllImages_Click"/>
+                    </ContextMenu>
+                </ListView.ContextMenu>
+            </ListView>
+            
+            <Expander 
+                Header="Archiv" 
+                Margin="2" 
+                Grid.Row="1" 
+                IsExpanded="True">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Gewählte Bilder:" Margin="2" />
+                    <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Path=SelectedImageCount}" Margin="2" />
+                    <TextBlock Grid.Row="1" Grid.Column="0" Text="Größe in MB:" Margin="2" />
+                    <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Path=SelectedFileSizeCount}" Margin="2" />
+
+                    <StackPanel Grid.Row="2" Grid.Column="0" Margin="8,2" >
+                        <Button Content="Archivgröße berechnen" Click="Button_EstimateClick" Padding="6,0"/>
+                    </StackPanel>
+
+                </Grid>
+            </Expander>
+
+        </Grid>
+            
+        <GridSplitter Grid.Column="0" Grid.Row="2" Width="2" Background="Transparent"/>
+        
+        <Grid Grid.Row="2" Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+           <HeaderedContentControl 
+               Grid.Row="0" 
+               Margin="2" 
+               Background="{DynamicResource ImageBackgroundTileBrush}">
+                <HeaderedContentControl.Header>
+                    <StackPanel Grid.Row="0" Orientation="Horizontal">
+                        <Label VerticalContentAlignment="Center" Margin="1,1,10,1" Content="_Verzeichnis/Archivname:" Target="{Binding ElementName=textArchiveName}" />
+                        <TextBox x:Name="textArchiveName" Margin="1" Width="200" Text="{Binding Path=ArchiveName,UpdateSourceTrigger=PropertyChanged}" />
+                    </StackPanel>
+                </HeaderedContentControl.Header>
+
+                <Image Margin="5" Source="{Binding PreViewImage,UpdateSourceTrigger=PropertyChanged}">
+                    <Image.LayoutTransform>
+                        <RotateTransform Angle="{Binding PreViewRotation,UpdateSourceTrigger=PropertyChanged}" />
+                    </Image.LayoutTransform>
+                </Image>
+            </HeaderedContentControl>
+
+            <Expander 
+                Header="Einstellungen" 
+                IsExpanded="True"
+                Grid.Row="1" 
+                Margin="2">
+                <Grid Margin="2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Margin="1" Grid.Row="0" Grid.Column="0" Text="Durchn. Bildgröße: " />
+                    <TextBlock Margin="1" Grid.Row="0" Grid.Column="2" HorizontalAlignment="Center" Text="{Binding Path=AverageSize}" />
+                    <Slider Margin="1" Grid.Row="0" Grid.Column="1" Width="100" Minimum="1" Maximum="100" Value="{Binding Path=Scale}" />
+                    <TextBlock Margin="1" Grid.Row="1" Grid.Column="0" Text="Qualität(%): " />
+                    <TextBlock Margin="1" Grid.Row="1" HorizontalAlignment="Center" Grid.Column="2" Text="{Binding Path=Quality}" />
+                    <Slider 
+                        Margin="1" 
+                        Grid.Row="1" 
+                        Grid.Column="1" 
+                        Minimum="50" 
+                        Maximum="100" 
+                        IsSnapToTickEnabled="True"
+                        TickFrequency="1" 
+                        Value="{Binding Path=Quality,UpdateSourceTrigger=PropertyChanged}"/>
+                    <Button Margin="1" Grid.Row="0" Grid.Column="3" ToolTip="90° nach links drehen" Click="Button_RotateCCWClick">
+                        <Image Source="Images/rotateccw.png" />
+                    </Button>
+                    <Button Margin="1" Grid.Row="0" Grid.Column="4" ToolTip="90° nach rechts drehen" Click="Button_RotateCWClick">
+                        <Image Source="Images/rotatecw.png" />
+                    </Button>
+                </Grid>
+            </Expander>
+        </Grid>
+        
+    </Grid>
+</Window>
