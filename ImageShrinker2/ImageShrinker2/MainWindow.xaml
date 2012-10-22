@@ -43,12 +43,20 @@
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
                     <TextBox Text="{Binding ArchiveName}" />
-                    <Image Grid.Row="1" Source="{Binding SelectedImage.Path}" />
+                    <Image Grid.Row="1" Source="{Binding SelectedImage.Path}" >
+                        <Image.LayoutTransform>
+                            <RotateTransform Angle="{Binding SelectedImage.Rotation}" />
+                        </Image.LayoutTransform>
+                    </Image>
                     <Border Grid.Row="1" VerticalAlignment="Bottom" Background="Orange" Opacity="0.5">
                         <StackPanel Orientation="Vertical">
                             <Slider Width="100" Minimum="1" Maximum="100" Value="{Binding Scale}" />
                             <TextBlock Text="{Binding DesiredWidth}" />
                             <TextBlock Text="{Binding DesiredHeight}" />
+                            <Button Content="CCW" Command="{Binding SelectedImage.RotateCcwCommand}" />
+                            <Button Content="CW" Command="{Binding SelectedImage.RotateCwCommand}" />
+                            <Slider Width="100" Minimum="50" Maximum="100" Value="{Binding Quality}" />
+                            <TextBlock Text="{Binding Quality}" />
                         </StackPanel>
                     </Border>
                 </Grid>

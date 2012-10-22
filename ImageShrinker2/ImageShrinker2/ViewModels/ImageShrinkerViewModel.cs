@@ -18,6 +18,7 @@ namespace ImageShrinker2.ViewModels
         private double _scale;
         private int _maxWidth;
         private int _maxHeight;
+        private long _quality;
 
         public ReadOnlyObservableCollection<ImageViewModel> Images
         { get { return new ReadOnlyObservableCollection<ImageViewModel>(_images); } }
@@ -37,6 +38,7 @@ namespace ImageShrinker2.ViewModels
 
             PropertyChanged += OnViewModelPropertyChanged;
             Scale = 100.0;
+            Quality = 90;
         }
 
         private void OnViewModelPropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -111,7 +113,7 @@ namespace ImageShrinker2.ViewModels
         {
             foreach (ImageViewModel imageViewModel in _images)
             {
-                ImageModel.SaveScaled(imageViewModel, path, DesiredWidth, DesiredHeight, 100);
+                ImageModel.SaveScaled(imageViewModel, path, DesiredWidth, DesiredHeight, Quality);
             }
         }
 
@@ -159,6 +161,12 @@ namespace ImageShrinker2.ViewModels
         public void AddImage(ImageViewModel imageViewModel)
         {
             _images.Add(imageViewModel);
+        }
+
+        public long Quality
+        {
+            get { return _quality; }
+            set { SetBackingField("Quality", ref _quality, value); }
         }
 
         public ImageViewModel SelectedImage
