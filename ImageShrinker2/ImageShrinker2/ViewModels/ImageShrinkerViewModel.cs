@@ -1,6 +1,8 @@
 ﻿
 using System;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.ComponentModel;
 using System.IO;
 using ImageShrinker2.Framework;
 using ImageShrinker2.Model;
@@ -13,6 +15,9 @@ namespace ImageShrinker2.ViewModels
         private readonly ObservableCollection<ImageViewModel> _images;
         private ImageViewModel _selectedImage;
         private string _archiveName;
+        private double _scale;
+        private int _maxWidth;
+        private int _maxHeight;
 
         public ReadOnlyObservableCollection<ImageViewModel> Images
         { get { return new ReadOnlyObservableCollection<ImageViewModel>(_images); } }
@@ -29,6 +34,34 @@ namespace ImageShrinker2.ViewModels
             AddFromFolderCommand = new ViewModelCommand(AddFromFolderCommandExecuted);
             SaveToFolderCommand = new ViewModelCommand(SaveToFolderCommandExecuted);
             PackToFolderCommand = new ViewModelCommand(PackToFolderCommandExecuted);
+
+            PropertyChanged += OnViewModelPropertyChanged;
+            Scale = 100.0;
+        }
+
+        private void OnViewModelPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "Scale")
+            {
+                OnPropertyChanged("DesiredWidth");
+                OnPropertyChanged("DesiredHeight");
+            }
+        }
+
+        private void UpdateDesiredSize()
+        {
+            _maxWidth = 0;
+            _maxHeight = 0;
+            foreach (ImageViewModel imageViewModel in _images)
+            {
+                if (imageViewModel.Width > _maxWidth)
+                {
+                    _maxWidth = imageViewModel.Width;
+                    _maxHeight = imageViewModel.Height;
+                }
+            }
+            OnPropertyChanged("DesiredWidth");
+            OnPropertyChanged("DesiredHeight");
         }
 
         private void PackToFolderCommandExecuted()
@@ -78,7 +111,7 @@ namespace ImageShrinker2.ViewModels
         {
             foreach (ImageViewModel imageViewModel in _images)
             {
-                ImageModel.SaveScaled(imageViewModel, path, 320, 240, 100);
+                ImageModel.SaveScaled(imageViewModel, path, DesiredWidth, DesiredHeight, 100);
             }
         }
 
@@ -88,6 +121,7 @@ namespace ImageShrinker2.ViewModels
             if (ViewService.ChooseFolderDialog(out path))
             {
                 AddFromFolderInternal(path);
+                UpdateDesiredSize();
             }
         }
 
@@ -138,5 +172,14 @@ namespace ImageShrinker2.ViewModels
             get { return _archiveName; }
             set { SetBackingField("ArchiveName", ref _archiveName, value); }
         }
+
+        public double Scale
+        {
+            get { return _scale; }
+            set { SetBackingField("Scale", ref _scale, value ); }
+        }
+
+        public int DesiredWidth { get { return (int) (_maxWidth * Scale * 0.01); } }
+        public int DesiredHeight { get { return (int)(_maxHeight * Scale * 0.01); } }
     }
 }

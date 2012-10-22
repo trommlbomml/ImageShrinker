@@ -27,7 +27,7 @@
 
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition MinWidth="200" />
+                <ColumnDefinition Width="200" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
@@ -44,6 +44,13 @@
                     </Grid.RowDefinitions>
                     <TextBox Text="{Binding ArchiveName}" />
                     <Image Grid.Row="1" Source="{Binding SelectedImage.Path}" />
+                    <Border Grid.Row="1" VerticalAlignment="Bottom" Background="Orange" Opacity="0.5">
+                        <StackPanel Orientation="Vertical">
+                            <Slider Width="100" Minimum="1" Maximum="100" Value="{Binding Scale}" />
+                            <TextBlock Text="{Binding DesiredWidth}" />
+                            <TextBlock Text="{Binding DesiredHeight}" />
+                        </StackPanel>
+                    </Border>
                 </Grid>
             </Border>
         </Grid>
