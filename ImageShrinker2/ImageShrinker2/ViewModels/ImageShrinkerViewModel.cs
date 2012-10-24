@@ -1,10 +1,8 @@
 ﻿
-using System;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.IO;
-using System.Windows.Forms;
 using ImageShrinker2.Framework;
 using ImageShrinker2.Jobs;
 using ImageShrinker2.Model;
@@ -124,7 +122,7 @@ namespace ImageShrinker2.ViewModels
         {
             foreach (ImageViewModel imageViewModel in _images)
             {
-                ImageModel.SaveScaled(imageViewModel, path, DesiredWidth, DesiredHeight, Quality);
+                ImageModel.SaveScaled(imageViewModel, path);
             }
         }
 
@@ -151,6 +149,7 @@ namespace ImageShrinker2.ViewModels
 
         public void AddImage(ImageViewModel imageViewModel)
         {
+            imageViewModel.Parent = this;
             _images.Add(imageViewModel);
         }
 

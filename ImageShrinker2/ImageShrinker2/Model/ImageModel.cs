@@ -3,6 +3,7 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Media.Imaging;
 using ImageShrinker2.ViewModels;
+using DrawImaging = System.Drawing.Imaging;
 
 namespace ImageShrinker2.Model
 {
@@ -22,46 +23,32 @@ namespace ImageShrinker2.Model
                        };
         }
 
-        public static void SaveScaled(ImageViewModel imageViewModel, string path, int width, int height, long quality)
+        public static void SaveScaled(ImageViewModel imageViewModel, string path)
         {
             string pathToSave = Path.Combine(path, imageViewModel.Name);
-
-            Bitmap original = new Bitmap(imageViewModel.Path);
-
-            double factor = 1.0f;
-            if (width < imageViewModel.Width)
-                factor = width/(double)imageViewModel.Width;
-            if (height < imageViewModel.Height)
-                factor = height/(double) imageViewModel.Height;
-
-            Bitmap scaled = new Bitmap((int) (original.Width * factor), (int)(original.Height * factor));
-            using (Graphics graphics = Graphics.FromImage(scaled))
+            using (FileStream fs = new FileStream(pathToSave, FileMode.Create))
             {
-                graphics.DrawImage(original, new Rectangle(0, 0, scaled.Width, scaled.Height));
-                using (FileStream fs = new FileStream(pathToSave, FileMode.Create))
-                {
-                    Save(fs, scaled, quality);
-                }
+                Save(imageViewModel, fs);
             }
 
-            if ((int)imageViewModel.Rotation % 360 != 0)
-            {
-                Image img = Image.FromFile(pathToSave);
-                img.RotateFlip(GetRotationType(imageViewModel.Rotation));
-                img.Save(pathToSave, System.Drawing.Imaging.ImageFormat.Jpeg);
-            }
+            if ((int) imageViewModel.Rotation%360 == 0) return;
+            Image img = Image.FromFile(pathToSave);
+            img.RotateFlip(GetRotationType(imageViewModel.Rotation));
+            img.Save(pathToSave, System.Drawing.Imaging.ImageFormat.Jpeg);
         }
 
-        public static double GetFileSizeScaledInMegaByte(ImageViewModel imageViewModel, int width, long quality)
+        public static double GetFileSizeScaledInMegaByte(ImageViewModel imageViewModel)
         {
             MemoryStream ms = new MemoryStream();
-            Save(imageViewModel, ms, width, quality);
+            Save(imageViewModel, ms);
             return (double)ms.Length / (1024 * 1024);
         }
 
-        private static void Save(ImageShrinkerViewModel imageShrinkerViewModel, ImageViewModel imageViewModel, Stream stream)
+        private static void Save(ImageViewModel imageViewModel, Stream stream)
         {
+            ImageShrinkerViewModel imageShrinkerViewModel = imageViewModel.Parent;
             Bitmap original = new Bitmap(imageViewModel.Path);
+
             double factor = 1.0;
             if (imageShrinkerViewModel.DesiredWidth < imageViewModel.Width)
                 factor = imageShrinkerViewModel.DesiredWidth / (double)imageViewModel.Width;
@@ -72,28 +59,21 @@ namespace ImageShrinker2.Model
             using (Graphics graphics = Graphics.FromImage(scaled))
             {
                 graphics.DrawImage(original, new Rectangle(0, 0, scaled.Width, scaled.Height));
-
-                var qualityParam = new System.Drawing.Imaging.EncoderParameter(System.Drawing.Imaging.Encoder.Quality, quality);
-                System.Drawing.Imaging.ImageCodecInfo jpegCodec = GetEncoderInfo("image/jpeg");
-
-                if (jpegCodec == null)
-                    return;
-
                 var encoderParams = new System.Drawing.Imaging.EncoderParameters(1);
-                encoderParams.Param[0] = qualityParam;
-
-                scaled.Save(stream, jpegCodec, encoderParams);
+                encoderParams.Param[0] = new DrawImaging.EncoderParameter(DrawImaging.Encoder.Quality, imageShrinkerViewModel.Quality);
+                scaled.Save(stream, GetEncoderInfo("image/jpeg"), encoderParams);
             }
         }
 
         private static System.Drawing.Imaging.ImageCodecInfo GetEncoderInfo(string mimeType)
         {
-            System.Drawing.Imaging.ImageCodecInfo[] codecs = System.Drawing.Imaging.ImageCodecInfo.GetImageEncoders();
+            DrawImaging.ImageCodecInfo[] codecs = DrawImaging.ImageCodecInfo.GetImageEncoders();
 
-            for (int i = 0; i < codecs.Length; i++)
-                if (codecs[i].MimeType == mimeType)
-                    return codecs[i];
-            return null;
+            foreach (DrawImaging.ImageCodecInfo codec in codecs)
+                if (codec.MimeType == mimeType)
+                    return codec;
+
+            throw new InvalidOperationException("There is no jpeg encoder");
         }
 
         private static RotateFlipType GetRotationType(double rotation)
@@ -137,8 +117,7 @@ namespace ImageShrinker2.Model
                         return new PngBitmapDecoder(new Uri(url), BitmapCreateOptions.DelayCreation, BitmapCacheOption.None);
                 }
             }
-
-            throw new ArgumentException(@"No valid image format was taken.", "url");
+            throw new ArgumentException("No valid image format was taken.", "url");
         }
     }
 }

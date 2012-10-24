@@ -12,6 +12,8 @@ namespace ImageShrinker2.ViewModels
         private bool _isSelected;
         private double _rotation;
 
+        public ImageShrinkerViewModel Parent { get; set; }
+
         public ViewModelCommand RotateCcwCommand { get; private set; }
         public ViewModelCommand RotateCwCommand { get; private set; }
 
