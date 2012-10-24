@@ -2,12 +2,10 @@
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
-using System.IO;
 using ImageShrinker2.Framework;
 using ImageShrinker2.Jobs;
 using ImageShrinker2.Model;
 using ImageShrinker2.Windows;
-using Ionic.Zip;
 using System.Linq;
 
 namespace ImageShrinker2.ViewModels
@@ -78,33 +76,8 @@ namespace ImageShrinker2.ViewModels
         private void PackToFolderCommandExecuted()
         {
             string path;
-            if (!ViewService.ChooseFolderDialog(out path))
-                return;
-
-            string tempPath = Path.Combine(Path.GetTempPath(), "ImageShrinker", ArchiveName);
-            
-            try
-            {
-                Directory.CreateDirectory(tempPath);
-                SaveTo(tempPath);
-                using(ZipFile zipFile = new ZipFile())
-                {
-                    foreach (string file in Directory.GetFiles(tempPath))
-                    {
-                        zipFile.AddFile(file, ArchiveName);
-                    }
-                    zipFile.Save(Path.Combine(path, ArchiveName + ".zip"));
-                }
-            }
-            finally
-            {
-                if (Directory.Exists(tempPath))
-                {
-                    foreach (string file in Directory.GetFiles(tempPath))
-                        File.Delete(file);
-                    Directory.Delete(tempPath);
-                }
-            }
+            if (ViewService.ChooseFolderDialog(out path))
+                ViewService.StartAsyncJob(this, new ProgressWindow(), new PackToDirectoryJob(path));
         }
 
         private void SaveToFolderCommandExecuted()
@@ -114,21 +87,11 @@ namespace ImageShrinker2.ViewModels
                 ViewService.StartAsyncJob(this, new ProgressWindow(), new CopyToFolderJob(path));
         }
 
-        private void SaveTo(string path)
-        {
-            foreach (ImageViewModel imageViewModel in _images)
-            {
-                ImageModel.SaveScaled(imageViewModel, path);
-            }
-        }
-
         private void AddFromFolderCommandExecuted()
         {
             string path;
             if (ViewService.ChooseFolderDialog(out path))
-            {
                 ViewService.StartAsyncJob(this, new ProgressWindow(), new LoadFromFolderJob(path));
-            }
         }
         
         private void AddFilesCommandExecuted()

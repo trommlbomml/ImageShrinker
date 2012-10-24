@@ -67,6 +67,7 @@
     <Compile Include="Framework\WindowExtension.cs" />
     <Compile Include="Jobs\CopyToFolderJob.cs" />
     <Compile Include="Jobs\LoadFromFolderJob.cs" />
+    <Compile Include="Jobs\PackToDirectoryJob.cs" />
     <Compile Include="Model\ImageModel.cs" />
     <Compile Include="ViewModels\ImageShrinkerViewModel.cs" />
     <Compile Include="ViewModels\ImageViewModel.cs" />
