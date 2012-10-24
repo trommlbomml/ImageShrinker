@@ -110,12 +110,8 @@ namespace ImageShrinker2.ViewModels
         private void SaveToFolderCommandExecuted()
         {
             string path;
-            if (!ViewService.ChooseFolderDialog(out path))
-                return;
-
-            string targetPath = Path.Combine(path, ArchiveName);
-            Directory.CreateDirectory(targetPath);
-            SaveTo(targetPath);
+            if (ViewService.ChooseFolderDialog(out path))
+                ViewService.StartAsyncJob(this, new ProgressWindow(), new CopyToFolderJob(path));
         }
 
         private void SaveTo(string path)

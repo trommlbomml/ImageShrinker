@@ -31,6 +31,15 @@ namespace ImageShrinker2.Framework
             });
         }
 
+        protected void IncreasingProgress(string text)
+        {
+            Ui.UpdateDispatcher.Invoke(DispatcherPriority.Normal, (Action)delegate
+            {
+                Ui.ProgressValue += 1;
+                Ui.MessageText = text;
+            });
+        }
+
         public virtual void Prepare(ImageShrinkerViewModel imageShrinkerViewModel, IBackgroundWorkerUi ui)
         {
             ImageShrinkerViewModel = imageShrinkerViewModel;
