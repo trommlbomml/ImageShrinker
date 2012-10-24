@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.IO;
+using System.Windows.Forms;
 using ImageShrinker2.Framework;
 using ImageShrinker2.Jobs;
 using ImageShrinker2.Model;

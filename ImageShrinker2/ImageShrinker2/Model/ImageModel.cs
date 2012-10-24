@@ -52,20 +52,38 @@ namespace ImageShrinker2.Model
             }
         }
 
-        private static void Save(Stream stream, Bitmap img, long quality)
+        public static double GetFileSizeScaledInMegaByte(ImageViewModel imageViewModel, int width, long quality)
         {
-            System.Drawing.Imaging.EncoderParameter qualityParam =
-                new System.Drawing.Imaging.EncoderParameter(System.Drawing.Imaging.Encoder.Quality, quality);
+            MemoryStream ms = new MemoryStream();
+            Save(imageViewModel, ms, width, quality);
+            return (double)ms.Length / (1024 * 1024);
+        }
 
-            System.Drawing.Imaging.ImageCodecInfo jpegCodec = GetEncoderInfo("image/jpeg");
+        private static void Save(ImageShrinkerViewModel imageShrinkerViewModel, ImageViewModel imageViewModel, Stream stream)
+        {
+            Bitmap original = new Bitmap(imageViewModel.Path);
+            double factor = 1.0;
+            if (imageShrinkerViewModel.DesiredWidth < imageViewModel.Width)
+                factor = imageShrinkerViewModel.DesiredWidth / (double)imageViewModel.Width;
+            if (imageShrinkerViewModel.DesiredHeight < imageViewModel.Height)
+                factor = imageShrinkerViewModel.DesiredHeight / (double)imageViewModel.Height;
+            
+            Bitmap scaled = new Bitmap((int)(original.Width * factor), (int)(original.Height * factor));
+            using (Graphics graphics = Graphics.FromImage(scaled))
+            {
+                graphics.DrawImage(original, new Rectangle(0, 0, scaled.Width, scaled.Height));
 
-            if (jpegCodec == null)
-                return;
+                var qualityParam = new System.Drawing.Imaging.EncoderParameter(System.Drawing.Imaging.Encoder.Quality, quality);
+                System.Drawing.Imaging.ImageCodecInfo jpegCodec = GetEncoderInfo("image/jpeg");
 
-            System.Drawing.Imaging.EncoderParameters encoderParams = new System.Drawing.Imaging.EncoderParameters(1);
-            encoderParams.Param[0] = qualityParam;
+                if (jpegCodec == null)
+                    return;
 
-            img.Save(stream, jpegCodec, encoderParams);
+                var encoderParams = new System.Drawing.Imaging.EncoderParameters(1);
+                encoderParams.Param[0] = qualityParam;
+
+                scaled.Save(stream, jpegCodec, encoderParams);
+            }
         }
 
         private static System.Drawing.Imaging.ImageCodecInfo GetEncoderInfo(string mimeType)
