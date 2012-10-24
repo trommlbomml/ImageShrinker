@@ -1,73 +1,149 @@
 ﻿<Window x:Class="ImageShrinker2.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="MainWindow" Height="350" Width="525">
+        Title="ImageShrinker 2"
+        MinWidth="640"
+        MinHeight="480"
+        Width="800"
+        Height="600"
+        WindowStartupLocation="CenterScreen">
     <Window.Resources>
         <DataTemplate x:Key="ImageViewDataTemplate">
-            <Border BorderThickness="1" BorderBrush="Black" Margin="1" Padding="1">
-                <StackPanel Orientation="Vertical">
-                    <TextBlock Text="{Binding Name}" />
-                    <TextBlock Text="{Binding Width}" />
-                    <TextBlock Text="{Binding Height}" />
-                    <CheckBox Content="IsSelected" IsChecked="{Binding IsSelected}" />
-                </StackPanel>
+            <Border BorderThickness="1" BorderBrush="Black" Padding="1">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    
+                    <CheckBox 
+                        Grid.Column="0" 
+                        Grid.Row="0" 
+                        Grid.RowSpan="2" 
+                        Margin="1"
+                        IsChecked="{Binding IsSelected}" 
+                        VerticalAlignment="Center" />
+                    
+                    <TextBlock Margin="1" Grid.Row="0" Grid.Column="1" Text="Name:" />
+                    <TextBlock Margin="1" Grid.Row="1" Grid.Column="1" Text="Größe:" />
+
+                    <TextBlock Margin="1" Grid.Row="0" Grid.Column="2" Text="{Binding Name}" />
+                    <StackPanel Grid.Row="1" Grid.Column="2" Orientation="Horizontal">
+                        <TextBlock Margin="1" Text="{Binding Width}" />
+                        <TextBlock Margin="1" Text="x" />
+                        <TextBlock Margin="1" Text="{Binding Height}" />
+                    </StackPanel>
+                </Grid>
             </Border>
         </DataTemplate>
+        
+        <Style x:Key="ImageViewStyleTemplate" TargetType="{x:Type ListViewItem}">
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        </Style>
     </Window.Resources>
     
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" /> 
         </Grid.RowDefinitions>
         
-        <StackPanel Orientation="Horizontal">
-            <Button Content="Load" Command="{Binding AddFilesCommand}" />
-            <Button Content="FromFolder" Command="{Binding AddFromFolderCommand}" />
-            <Button Content="SaveToFolder" Command="{Binding SaveToFolderCommand}" />
-            <Button Content="PackToFolder" Command="{Binding PackToFolderCommand}" />
-        </StackPanel>
+        <Menu Grid.Row="0">
+            <MenuItem Header="Datei">
+                <MenuItem Header="Bilder hinzufügen ..." Command="{Binding AddFilesCommand}" />
+                <MenuItem Header="Bilder aus Verzeichnis hinzufügen ..." Command="{Binding AddFromFolderCommand}" />
+            </MenuItem>
+            <MenuItem Header="Erstellen">
+                <MenuItem Header="In Verzeichnis erstellen ..." Command="{Binding SaveToFolderCommand}" />
+                <MenuItem Header="Archiv erstellen ..." Command="{Binding PackToFolderCommand}" />
+            </MenuItem>
+        </Menu>
+        
+        <ToolBarTray Grid.Row="1">
+            <ToolBar>
+                <Button ToolTip="Bilder hinzufügen ..." Command="{Binding AddFilesCommand}" >
+                    <Image Source="Images/addimages.png" Width="32" Height="32" />
+                </Button>
+                <Button ToolTip="Bilder aus Verzeichnis hinzufügen ..." Command="{Binding AddFromFolderCommand}" >
+                    <Image Source="Images/addfromfolder.png" Width="32" Height="32" />
+                </Button>
+                <Button ToolTip="In Verzeichnis erstellen ..." Command="{Binding SaveToFolderCommand}" >
+                    <Image Source="Images/savetofolder.png" Width="32" Height="32" />
+                </Button>
+                <Button ToolTip="Archiv erstellen ..." Command="{Binding PackToFolderCommand}" >
+                    <Image Source="Images/savetozip.png" Width="32" Height="32" />
+                </Button>
+            </ToolBar>
+        </ToolBarTray>
 
-        <Grid Grid.Row="1">
+        <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="200" />
+                <ColumnDefinition Width="200" MinWidth="200" />
+                <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
-            <Grid>
+            <Grid Grid.Column="0">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
                 <ListView 
+                    Margin="1"
                     ItemsSource="{Binding Images}" 
                     SelectedItem="{Binding SelectedImage}"
-                    ItemTemplate="{StaticResource ImageViewDataTemplate}" />
-                
-                <Expander Grid.Row="1" Header="Information" IsExpanded="true">
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Selected Images:" />
-                        <TextBlock Text="{Binding SelectedImageCount}" />
-                    </StackPanel>
-                </Expander>
+                    ItemTemplate="{StaticResource ImageViewDataTemplate}" 
+                    ItemContainerStyle="{StaticResource ImageViewStyleTemplate}"/>
+
+                <Border Grid.Row="1" BorderBrush="Black" BorderThickness="1" Margin="1">
+                    <Expander Header="Information" IsExpanded="true">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Selected Images:" />
+                            <TextBlock Text="{Binding SelectedImageCount}" />
+                        </StackPanel>
+                    </Expander>
+                </Border>
 
             </Grid>
-            
-            <Border Grid.Column="1"  BorderBrush="Black" BorderThickness="1">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
-                    <TextBox Text="{Binding ArchiveName}" />
-                    <Image Grid.Row="1" Source="{Binding SelectedImage.Path}" >
-                        <Image.LayoutTransform>
-                            <RotateTransform Angle="{Binding SelectedImage.Rotation}" />
-                        </Image.LayoutTransform>
-                    </Image>
-                    <Expander Header="Edit" Grid.Row="2" IsExpanded="true">
+
+            <GridSplitter Grid.Column="1" Width="4" ResizeBehavior="PreviousAndNext" ResizeDirection="Columns" />
+
+
+            <Grid Grid.Column="2">
+                
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <Border BorderBrush="Black" BorderThickness="1" Margin="1">
+                    <HeaderedContentControl Grid.Row="0" VerticalContentAlignment="Stretch">
+                        <HeaderedContentControl.Header>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Content="Archivname:" />
+                                <TextBox Text="{Binding ArchiveName}" Width="200" />
+                            </StackPanel>
+                        </HeaderedContentControl.Header>
+                    
+                        <Image Margin="5" Source="{Binding SelectedImage.Path}" >
+                            <Image.LayoutTransform>
+                                <RotateTransform Angle="{Binding SelectedImage.Rotation}" />
+                            </Image.LayoutTransform>
+                        </Image>
+                    
+                    </HeaderedContentControl>
+                </Border>
+
+                <Border Grid.Row="1" BorderBrush="Black" BorderThickness="1" Margin="1">
+                    <Expander Header="Edit" IsExpanded="true">
                         <StackPanel Orientation="Vertical">
                             <Slider Width="100" Minimum="1" Maximum="100" Value="{Binding Scale}" />
                             <TextBlock Text="{Binding DesiredWidth}" />
@@ -78,9 +154,8 @@
                             <TextBlock Text="{Binding Quality}" />
                         </StackPanel>
                     </Expander>
-                </Grid>
-            </Border>
+                </Border>
+            </Grid>
         </Grid>
-
     </Grid>
 </Window>

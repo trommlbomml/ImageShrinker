@@ -92,6 +92,7 @@ namespace ImageShrinker2.ViewModels
             string path;
             if (ViewService.ChooseFolderDialog(out path))
                 ViewService.ExecuteAsyncJob(this, new ProgressWindow(), new LoadFromFolderJob(path));
+            SelectFirstImage();
         }
         
         private void AddFilesCommandExecuted()
@@ -104,11 +105,24 @@ namespace ImageShrinker2.ViewModels
                 else
                     ViewService.ExecuteAsyncJob(this, new ProgressWindow(), new LoadFromFilesJob(files));
             }
+
+            SelectFirstImage();
+        }
+
+        private void SelectFirstImage()
+        {
+            if (_images.Count > 0 && SelectedImage == null)
+                SelectedImage = Images.First();
         }
 
         public void AddImage(ImageViewModel imageViewModel)
         {
             imageViewModel.Parent = this;
+            imageViewModel.PropertyChanged += (s, e) =>
+            {
+                if (e.PropertyName == "IsSelected")
+                    OnPropertyChanged("SelectedImageCount");
+            };
             _images.Add(imageViewModel);
         }
 

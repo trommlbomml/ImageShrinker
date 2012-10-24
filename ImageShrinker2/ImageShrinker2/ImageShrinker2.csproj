@@ -118,6 +118,12 @@
     </None>
     <AppDesigner Include="Properties\" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\addfromfolder.png" />
+    <Resource Include="Images\addimages.png" />
+    <Resource Include="Images\savetofolder.png" />
+    <Resource Include="Images\savetozip.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
