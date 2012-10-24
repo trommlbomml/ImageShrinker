@@ -105,10 +105,27 @@
 
                 <Border Grid.Row="1" BorderBrush="Black" BorderThickness="1" Margin="1">
                     <Expander Header="Information" IsExpanded="true">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Selected Images:" />
-                            <TextBlock Text="{Binding SelectedImageCount}" />
-                        </StackPanel>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Margin="1" Text="Selected Images:" Grid.Row="0" Grid.Column="0" />
+                            <TextBlock Margin="1" Text="Compressed Size:" Grid.Row="1" Grid.Column="0" />
+
+                            <TextBlock Margin="1" Text="{Binding SelectedImageCount}" Grid.Row="0" Grid.Column="1" />
+
+                            <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="1">
+                                <TextBlock Margin="1" Text="{Binding CompressedSize, FallbackValue=0}" />
+                                <TextBlock Margin="1" Text="MB" />
+                            </StackPanel>
+                            
+                        </Grid>
                     </Expander>
                 </Border>
 
@@ -125,37 +142,65 @@
                 </Grid.RowDefinitions>
 
                 <Border BorderBrush="Black" BorderThickness="1" Margin="1">
-                    <HeaderedContentControl Grid.Row="0" VerticalContentAlignment="Stretch">
+                    <HeaderedContentControl Grid.Row="0" VerticalContentAlignment="Stretch" VerticalAlignment="Stretch">
                         <HeaderedContentControl.Header>
                             <StackPanel Orientation="Horizontal">
                                 <Label Content="Archivname:" />
                                 <TextBox Text="{Binding ArchiveName}" Width="200" />
                             </StackPanel>
                         </HeaderedContentControl.Header>
-                    
+
                         <Image Margin="5" Source="{Binding SelectedImage.Path}" >
                             <Image.LayoutTransform>
                                 <RotateTransform Angle="{Binding SelectedImage.Rotation}" />
                             </Image.LayoutTransform>
                         </Image>
-                    
+
                     </HeaderedContentControl>
                 </Border>
 
                 <Border Grid.Row="1" BorderBrush="Black" BorderThickness="1" Margin="1">
-                    <Expander Header="Edit" IsExpanded="true">
-                        <StackPanel Orientation="Vertical">
-                            <Slider Width="100" Minimum="1" Maximum="100" Value="{Binding Scale}" />
-                            <TextBlock Text="{Binding DesiredWidth}" />
-                            <TextBlock Text="{Binding DesiredHeight}" />
-                            <Button Content="CCW" Command="{Binding SelectedImage.RotateCcwCommand}" />
-                            <Button Content="CW" Command="{Binding SelectedImage.RotateCwCommand}" />
-                            <Slider Width="100" Minimum="50" Maximum="100" Value="{Binding Quality}" />
-                            <TextBlock Text="{Binding Quality}" />
-                        </StackPanel>
+                    <Expander Header="Manipulation" IsExpanded="true">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="100" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Margin="1" Text="Mittlere Bildgröße (Pixel):" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center"/>
+                            <TextBlock Margin="1" Text="Qualität (%):" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" />
+
+                            <Slider Margin="1" Minimum="1" Maximum="100" Value="{Binding Scale}" Grid.Row="0" Grid.Column="1" />
+                            <Slider Margin="1" Minimum="25" Maximum="100" Value="{Binding Quality}" Grid.Row="1" Grid.Column="1" />
+
+                            <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="2">
+                                <TextBlock Margin="1" Text="{Binding DesiredWidth}" VerticalAlignment="Center" />
+                                <TextBlock Margin="1" Text="x" VerticalAlignment="Center" />
+                                <TextBlock Margin="1" Text="{Binding DesiredHeight}" VerticalAlignment="Center" />
+                            </StackPanel>
+                            <TextBlock Text="{Binding Quality}"  Grid.Row="1" Grid.Column="2" VerticalAlignment="Center" />
+                            
+                            <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="3">
+                                <Button Margin="1" Command="{Binding SelectedImage.RotateCcwCommand}">
+                                    <Image Source="Images/rotateccw.png" />
+                                </Button>
+                                <Button Margin="1" Command="{Binding SelectedImage.RotateCwCommand}">
+                                    <Image Source="Images/rotatecw.png" />
+                                </Button>
+                            </StackPanel>
+                        </Grid>
                     </Expander>
                 </Border>
+                
             </Grid>
+            
         </Grid>
+        
     </Grid>
 </Window>
