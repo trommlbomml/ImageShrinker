@@ -35,7 +35,13 @@ namespace ImageShrinker2.Framework
 
         public static bool ChooseFilesDialog(out string[] file)
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog {Multiselect = true};
+            OpenFileDialog openFileDialog = new OpenFileDialog
+            {
+                Multiselect = true,
+                Filter = "Bilddateien (*.bmp;*.jpg;*.jpeg;*.png)|*.bmp;*.jpg;*.jpeg;*.png",
+                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures),
+                Title = "Bitte Bilder wählen",
+            };
             if (openFileDialog.ShowDialog() == true)
             {
                 file = openFileDialog.FileNames;
@@ -48,7 +54,12 @@ namespace ImageShrinker2.Framework
 
         public static bool ChooseFolderDialog(out string folder)
         {
-            FolderBrowserDialog dialog = new FolderBrowserDialog();
+            FolderBrowserDialog dialog = new FolderBrowserDialog
+            {
+                Description = "Bitte wählen Sie einen Zielordner aus:",
+                ShowNewFolderButton = true,
+                SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop)
+            };
             if(dialog.ShowDialog(MainWindow.GetIWin32Window()) == DialogResult.OK)
             {
                 folder = dialog.SelectedPath;

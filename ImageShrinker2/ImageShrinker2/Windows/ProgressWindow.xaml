@@ -5,35 +5,16 @@
         ResizeMode="NoResize"
         ShowInTaskbar="False"
         WindowStartupLocation="CenterOwner"
+        Title="ImageShrinker verarbeitet"
         Owner="{x:Static Framework:ViewService.MainWindow}"
         WindowStyle="SingleBorderWindow"
         SizeToContent="Height">
 
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-            </Grid.RowDefinitions>
-            <TextBlock Grid.Row="0"
-                x:Name="_informationText"
-                Margin="10,6,10,2"
-                VerticalAlignment="Center"
-                TextTrimming="CharacterEllipsis"
-                />
-            <ProgressBar 
-                Grid.Row="1" 
-                Margin="10,2" 
-                Height="20" 
-                x:Name="_progressBar"  />
-            <StackPanel Grid.Row="2">
-                <Button 
-                    Content="Abbrechen" 
-                    IsCancel="True" 
-                    HorizontalAlignment="Center" 
-                    Padding="10,0,10,0" 
-                    Width="Auto" 
-                    Margin="4"/>
-            </StackPanel>
-        </Grid>
+    <DockPanel>
+        <TextBlock x:Name="_informationText" Margin="10,6,10,2" VerticalAlignment="Center" DockPanel.Dock="Top" TextTrimming="CharacterEllipsis" />
+        <ProgressBar Margin="10,2"  Height="20" x:Name="_progressBar" DockPanel.Dock="Top" />
+        <WrapPanel DockPanel.Dock="Bottom" HorizontalAlignment="Center" Margin="4">
+            <Button Content="Abbrechen" IsCancel="True" Padding="10,0" />
+        </WrapPanel>
+    </DockPanel>
 </Window>

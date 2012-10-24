@@ -27,6 +27,7 @@ namespace ImageShrinker2.ViewModels
         public ViewModelCommand AddFromFolderCommand { get; private set; }
         public ViewModelCommand SaveToFolderCommand { get; private set; }
         public ViewModelCommand PackToFolderCommand { get; private set; }
+        public ViewModelCommand ShowInfoCommand { get; private set; }
 
         public ImageShrinkerViewModel()
         {
@@ -35,6 +36,7 @@ namespace ImageShrinker2.ViewModels
             AddFromFolderCommand = new ViewModelCommand(AddFromFolderCommandExecuted);
             SaveToFolderCommand = new ViewModelCommand(SaveToFolderCommandExecuted);
             PackToFolderCommand = new ViewModelCommand(PackToFolderCommandExecuted);
+            ShowInfoCommand = new ViewModelCommand(() => new InfoWindow().ShowDialog());
 
             PropertyChanged += OnViewModelPropertyChanged;
             _images.CollectionChanged += ImagesOnCollectionChanged;

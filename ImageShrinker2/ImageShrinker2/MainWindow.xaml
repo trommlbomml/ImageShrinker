@@ -64,6 +64,9 @@
                 <MenuItem Header="In Verzeichnis erstellen ..." Command="{Binding SaveToFolderCommand}" />
                 <MenuItem Header="Archiv erstellen ..." Command="{Binding PackToFolderCommand}" />
             </MenuItem>
+            <MenuItem Header="Info">
+                <MenuItem Header="Über ..." Command="{Binding ShowInfoCommand}" />
+            </MenuItem>
         </Menu>
         
         <ToolBarTray Grid.Row="1">
