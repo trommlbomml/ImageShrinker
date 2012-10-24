@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Windows.Media.Imaging;
 using ImageShrinker2.ViewModels;
 using DrawImaging = System.Drawing.Imaging;
@@ -9,6 +11,8 @@ namespace ImageShrinker2.Model
 {
     static class ImageModel
     {
+        private static readonly HashSet<string> UniqueUpperFileNames = new HashSet<string>(); 
+
         public static ImageViewModel CreateFromFile(string fileName)
         {
             int width, height;
@@ -17,10 +21,24 @@ namespace ImageShrinker2.Model
                        {
                            Height = height,
                            Width = width,
-                           Name = Path.GetFileName(fileName),
+                           Name = GetUniqueFileName(fileName),
                            Path = fileName,
                            IsSelected = true,
                        };
+        }
+
+        private static string GetUniqueFileName(string fileName)
+        {
+            string extension = Path.GetExtension(fileName);
+            string baseName = Path.GetFileNameWithoutExtension(fileName);
+
+            int index = 0;
+            string newName = Path.GetFileName(fileName);
+            while (UniqueUpperFileNames.Contains(newName.ToUpper()))
+                newName = string.Format("{0}({1}){2}", baseName, ++index, extension);
+
+            UniqueUpperFileNames.Add(newName.ToUpper());
+            return newName;
         }
 
         public static void SaveScaled(ImageViewModel imageViewModel, string path)
