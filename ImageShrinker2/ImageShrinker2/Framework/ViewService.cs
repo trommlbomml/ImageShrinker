@@ -1,7 +1,9 @@
 ﻿
 using System;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Forms;
+using ImageShrinker2.ViewModels;
 using Application = System.Windows.Application;
 using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
 
@@ -10,7 +12,7 @@ namespace ImageShrinker2.Framework
     static class ViewService
     {
         private static Window _mainWindow;
-        private static Window MainWindow
+        public static Window MainWindow
         {
             get
             {
@@ -55,6 +57,20 @@ namespace ImageShrinker2.Framework
 
             folder = null;
             return false;
+        }
+
+        public static void StartAsyncJob(ImageShrinkerViewModel context, IBackgroundWorkerUi uiResponder, IAsyncJob job)
+        {
+            BackgroundWorker backgroundWorker = new BackgroundWorker();
+            backgroundWorker.DoWork += job.BackgroundWorkerOnDoWork;
+            backgroundWorker.RunWorkerCompleted += (s, e) =>
+            {
+                uiResponder.Aborting = false; uiResponder.OnWorkerCompleted();
+            };
+            uiResponder.Worker = backgroundWorker;
+            job.Prepare(context, uiResponder);
+            backgroundWorker.RunWorkerAsync();
+            uiResponder.AfterAsyncStart();
         }
     }
 }

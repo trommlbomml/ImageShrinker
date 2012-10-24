@@ -60,11 +60,18 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Framework\AsyncJobBase.cs" />
+    <Compile Include="Framework\IAsyncJob.cs" />
+    <Compile Include="Framework\IBackgroundWorkerUI.cs" />
     <Compile Include="Framework\ViewService.cs" />
     <Compile Include="Framework\WindowExtension.cs" />
+    <Compile Include="Jobs\LoadFromFolderJob.cs" />
     <Compile Include="Model\ImageModel.cs" />
     <Compile Include="ViewModels\ImageShrinkerViewModel.cs" />
     <Compile Include="ViewModels\ImageViewModel.cs" />
+    <Compile Include="Windows\ProgressWindow.xaml.cs">
+      <DependentUpon>ProgressWindow.xaml</DependentUpon>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -79,6 +86,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Windows\ProgressWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">

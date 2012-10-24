@@ -4,11 +4,14 @@
         Title="MainWindow" Height="350" Width="525">
     <Window.Resources>
         <DataTemplate x:Key="ImageViewDataTemplate">
-            <StackPanel Orientation="Vertical">
-                <TextBlock Text="{Binding Name}" />
-                <TextBlock Text="{Binding Width}" />
-                <TextBlock Text="{Binding Height}" />
-            </StackPanel>
+            <Border BorderThickness="1" BorderBrush="Black" Margin="1" Padding="1">
+                <StackPanel Orientation="Vertical">
+                    <TextBlock Text="{Binding Name}" />
+                    <TextBlock Text="{Binding Width}" />
+                    <TextBlock Text="{Binding Height}" />
+                    <CheckBox Content="IsSelected" IsChecked="{Binding IsSelected}" />
+                </StackPanel>
+            </Border>
         </DataTemplate>
     </Window.Resources>
     
@@ -31,16 +34,32 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
-            <ListView 
-                ItemsSource="{Binding Images}" 
-                SelectedItem="{Binding SelectedImage}"
-                ItemTemplate="{StaticResource ImageViewDataTemplate}" />
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <ListView 
+                    ItemsSource="{Binding Images}" 
+                    SelectedItem="{Binding SelectedImage}"
+                    ItemTemplate="{StaticResource ImageViewDataTemplate}" />
+                
+                <Expander Grid.Row="1" Header="Information" IsExpanded="true">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Selected Images:" />
+                        <TextBlock Text="{Binding SelectedImageCount}" />
+                    </StackPanel>
+                </Expander>
+
+            </Grid>
             
             <Border Grid.Column="1"  BorderBrush="Black" BorderThickness="1">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <TextBox Text="{Binding ArchiveName}" />
                     <Image Grid.Row="1" Source="{Binding SelectedImage.Path}" >
@@ -48,7 +67,7 @@
                             <RotateTransform Angle="{Binding SelectedImage.Rotation}" />
                         </Image.LayoutTransform>
                     </Image>
-                    <Border Grid.Row="1" VerticalAlignment="Bottom" Background="Orange" Opacity="0.5">
+                    <Expander Header="Edit" Grid.Row="2" IsExpanded="true">
                         <StackPanel Orientation="Vertical">
                             <Slider Width="100" Minimum="1" Maximum="100" Value="{Binding Scale}" />
                             <TextBlock Text="{Binding DesiredWidth}" />
@@ -58,7 +77,7 @@
                             <Slider Width="100" Minimum="50" Maximum="100" Value="{Binding Quality}" />
                             <TextBlock Text="{Binding Quality}" />
                         </StackPanel>
-                    </Border>
+                    </Expander>
                 </Grid>
             </Border>
         </Grid>

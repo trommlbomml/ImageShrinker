@@ -5,8 +5,11 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.IO;
 using ImageShrinker2.Framework;
+using ImageShrinker2.Jobs;
 using ImageShrinker2.Model;
+using ImageShrinker2.Windows;
 using Ionic.Zip;
+using System.Linq;
 
 namespace ImageShrinker2.ViewModels
 {
@@ -37,8 +40,15 @@ namespace ImageShrinker2.ViewModels
             PackToFolderCommand = new ViewModelCommand(PackToFolderCommandExecuted);
 
             PropertyChanged += OnViewModelPropertyChanged;
+            _images.CollectionChanged += ImagesOnCollectionChanged;
             Scale = 100.0;
             Quality = 90;
+        }
+
+        private void ImagesOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            OnPropertyChanged("SelectedImageCount");
+            UpdateDesiredSize();
         }
 
         private void OnViewModelPropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -122,30 +132,10 @@ namespace ImageShrinker2.ViewModels
             string path;
             if (ViewService.ChooseFolderDialog(out path))
             {
-                AddFromFolderInternal(path);
-                UpdateDesiredSize();
+                ViewService.StartAsyncJob(this, new ProgressWindow(), new LoadFromFolderJob(path));
             }
         }
-
-        private void AddFromFolderInternal(string path)
-        {
-            foreach (string file in Directory.GetFiles(path))
-            {
-                if (new FileInfo(file).Attributes == FileAttributes.Directory)
-                {
-                    AddFromFolderInternal(file);
-                }
-                else
-                {
-                    string extension = Path.GetExtension(file).ToLower();
-                    if (extension == ".jpg" || extension == ".jpeg")
-                    {
-                        _images.Add(ImageModel.CreateFromFile(file));
-                    }
-                }
-            }
-        }
-
+        
         private void AddFilesCommandExecuted()
         {
             string[] files;
@@ -189,5 +179,6 @@ namespace ImageShrinker2.ViewModels
 
         public int DesiredWidth { get { return (int) (_maxWidth * Scale * 0.01); } }
         public int DesiredHeight { get { return (int)(_maxHeight * Scale * 0.01); } }
+        public int SelectedImageCount { get { return _images.Count(i => i.IsSelected); } }
     }
 }

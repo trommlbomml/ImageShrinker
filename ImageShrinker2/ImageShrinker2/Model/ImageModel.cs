@@ -17,7 +17,8 @@ namespace ImageShrinker2.Model
                            Height = height,
                            Width = width,
                            Name = Path.GetFileName(fileName),
-                           Path = fileName
+                           Path = fileName,
+                           IsSelected = true,
                        };
         }
 
