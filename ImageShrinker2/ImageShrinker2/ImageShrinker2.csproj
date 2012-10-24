@@ -65,6 +65,7 @@
     <Compile Include="Framework\IBackgroundWorkerUI.cs" />
     <Compile Include="Framework\ViewService.cs" />
     <Compile Include="Framework\WindowExtension.cs" />
+    <Compile Include="Jobs\LoadFromFilesJob.cs" />
     <Compile Include="Jobs\CopyToFolderJob.cs" />
     <Compile Include="Jobs\LoadFromFolderJob.cs" />
     <Compile Include="Jobs\PackToDirectoryJob.cs" />

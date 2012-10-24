@@ -45,7 +45,7 @@ namespace ImageShrinker2.Jobs
                     if (extension == ".jpg" || extension == ".jpeg")
                     {
                         ImageViewModel imageViewModel = ImageModel.CreateFromFile(file);
-                        InvokeIncreasingProgress(() => { Ui.ProgressValue += 1; ImageShrinkerViewModel.AddImage(imageViewModel); });
+                        InvokeIncreasingProgress(() => ImageShrinkerViewModel.AddImage(imageViewModel));
                     }
                 }
             }

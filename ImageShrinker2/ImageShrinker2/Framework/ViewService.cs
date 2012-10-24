@@ -35,7 +35,7 @@ namespace ImageShrinker2.Framework
 
         public static bool ChooseFilesDialog(out string[] file)
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
+            OpenFileDialog openFileDialog = new OpenFileDialog {Multiselect = true};
             if (openFileDialog.ShowDialog() == true)
             {
                 file = openFileDialog.FileNames;
@@ -59,7 +59,7 @@ namespace ImageShrinker2.Framework
             return false;
         }
 
-        public static void StartAsyncJob(ImageShrinkerViewModel context, IBackgroundWorkerUi uiResponder, IAsyncJob job)
+        public static void ExecuteAsyncJob(ImageShrinkerViewModel context, IBackgroundWorkerUi uiResponder, IAsyncJob job)
         {
             BackgroundWorker backgroundWorker = new BackgroundWorker();
             backgroundWorker.DoWork += job.BackgroundWorkerOnDoWork;

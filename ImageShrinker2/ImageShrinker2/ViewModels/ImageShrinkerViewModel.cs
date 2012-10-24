@@ -77,21 +77,21 @@ namespace ImageShrinker2.ViewModels
         {
             string path;
             if (ViewService.ChooseFolderDialog(out path))
-                ViewService.StartAsyncJob(this, new ProgressWindow(), new PackToDirectoryJob(path));
+                ViewService.ExecuteAsyncJob(this, new ProgressWindow(), new PackToDirectoryJob(path));
         }
 
         private void SaveToFolderCommandExecuted()
         {
             string path;
             if (ViewService.ChooseFolderDialog(out path))
-                ViewService.StartAsyncJob(this, new ProgressWindow(), new CopyToFolderJob(path));
+                ViewService.ExecuteAsyncJob(this, new ProgressWindow(), new CopyToFolderJob(path));
         }
 
         private void AddFromFolderCommandExecuted()
         {
             string path;
             if (ViewService.ChooseFolderDialog(out path))
-                ViewService.StartAsyncJob(this, new ProgressWindow(), new LoadFromFolderJob(path));
+                ViewService.ExecuteAsyncJob(this, new ProgressWindow(), new LoadFromFolderJob(path));
         }
         
         private void AddFilesCommandExecuted()
@@ -99,10 +99,10 @@ namespace ImageShrinker2.ViewModels
             string[] files;
             if(ViewService.ChooseFilesDialog(out files))
             {
-                foreach (string file in files)
-                {
-                    _images.Add(ImageModel.CreateFromFile(file));
-                }
+                if (files.Length <= 10)
+                    foreach (string file in files) AddImage(ImageModel.CreateFromFile(file));
+                else
+                    ViewService.ExecuteAsyncJob(this, new ProgressWindow(), new LoadFromFilesJob(files));
             }
         }
 
