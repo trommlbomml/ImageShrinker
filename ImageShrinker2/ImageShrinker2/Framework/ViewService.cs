@@ -22,6 +22,8 @@ namespace ImageShrinker2.Framework
             }
         }
 
+        public static bool AsyncJobRunning { get; private set; }
+
         private static Window GetWindow(Type windowType)
         {
             foreach (Window window in Application.Current.Windows)
@@ -76,10 +78,13 @@ namespace ImageShrinker2.Framework
             backgroundWorker.DoWork += job.BackgroundWorkerOnDoWork;
             backgroundWorker.RunWorkerCompleted += (s, e) =>
             {
-                uiResponder.Aborting = false; uiResponder.OnWorkerCompleted();
+                uiResponder.Aborting = false; 
+                uiResponder.OnWorkerCompleted();
+                AsyncJobRunning = false;
             };
             uiResponder.Worker = backgroundWorker;
             job.Prepare(context, uiResponder);
+            AsyncJobRunning = true;
             backgroundWorker.RunWorkerAsync();
             uiResponder.AfterAsyncStart();
         }

@@ -52,7 +52,8 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" /> 
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         
         <Menu Grid.Row="0">
@@ -124,7 +125,7 @@
                             <TextBlock Margin="1" Text="{Binding SelectedImageCount}" Grid.Row="0" Grid.Column="1" />
 
                             <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="1">
-                                <TextBlock Margin="1" Text="{Binding CompressedSize, FallbackValue=0}" />
+                                <TextBlock Margin="1" Text="{Binding CompressedSize, StringFormat='0.00'}" />
                                 <TextBlock Margin="1" Text="MB" />
                             </StackPanel>
                             
@@ -204,6 +205,15 @@
             </Grid>
             
         </Grid>
+        
+        <StatusBar Grid.Row="3">
+            <StatusBarItem>
+                <TextBlock x:Name="_asyncBackgroundText" Width="200" />
+            </StatusBarItem>
+            <StatusBarItem>
+                <ProgressBar x:Name="_progressBar" Width="200" Height="10" Value="50" Minimum="0" Maximum="100" />
+            </StatusBarItem>
+        </StatusBar>
         
     </Grid>
 </Window>

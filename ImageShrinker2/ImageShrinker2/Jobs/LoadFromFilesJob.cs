@@ -39,7 +39,6 @@ namespace ImageShrinker2.Jobs
                     ImageViewModel imageViewModel = ImageModel.CreateFromFile(file);
                     string message = String.Format("Lade Bild {0} von {1}...", ++_count, _files.Length);
                     InvokeIncreasingProgress(message, () => ImageShrinkerViewModel.AddImage(imageViewModel));
-                    ;
                 }
             }
         }

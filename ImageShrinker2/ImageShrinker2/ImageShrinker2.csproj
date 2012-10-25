@@ -65,13 +65,19 @@
     <Compile Include="Framework\IBackgroundWorkerUI.cs" />
     <Compile Include="Framework\ViewService.cs" />
     <Compile Include="Framework\WindowExtension.cs" />
+    <Compile Include="Jobs\CalculateCompressedSizeJob.cs" />
     <Compile Include="Jobs\LoadFromFilesJob.cs" />
     <Compile Include="Jobs\CopyToFolderJob.cs" />
     <Compile Include="Jobs\LoadFromFolderJob.cs" />
     <Compile Include="Jobs\PackToDirectoryJob.cs" />
     <Compile Include="Model\ImageModel.cs" />
+    <Compile Include="ViewModels\EMailProviderViewModel.cs" />
+    <Compile Include="ViewModels\EMailSendViewModel.cs" />
     <Compile Include="ViewModels\ImageShrinkerViewModel.cs" />
     <Compile Include="ViewModels\ImageViewModel.cs" />
+    <Compile Include="Windows\EMailSendWindow.xaml.cs">
+      <DependentUpon>EMailSendWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\InfoWindow.xaml.cs">
       <DependentUpon>InfoWindow.xaml</DependentUpon>
     </Compile>
@@ -92,6 +98,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Windows\EMailSendWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Windows\InfoWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

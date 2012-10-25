@@ -1,5 +1,4 @@
-﻿
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.IO;
 using ImageShrinker2.Framework;
 using ImageShrinker2.Model;

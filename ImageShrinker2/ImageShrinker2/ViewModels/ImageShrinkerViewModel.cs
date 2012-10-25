@@ -1,7 +1,9 @@
 ﻿
+using System;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Windows.Threading;
 using ImageShrinker2.Framework;
 using ImageShrinker2.Jobs;
 using ImageShrinker2.Model;
@@ -19,6 +21,9 @@ namespace ImageShrinker2.ViewModels
         private int _maxWidth;
         private int _maxHeight;
         private long _quality;
+        private double _compressedSize;
+        private DispatcherTimer _timer;
+        private bool _imageDataChangedForCalculation;
 
         public ReadOnlyObservableCollection<ImageViewModel> Images
         { get { return new ReadOnlyObservableCollection<ImageViewModel>(_images); } }
@@ -31,6 +36,9 @@ namespace ImageShrinker2.ViewModels
 
         public ImageShrinkerViewModel()
         {
+            _timer = new DispatcherTimer {Interval = new TimeSpan(0, 0, 0, 1)};
+            _timer.Tick += TimerOnTick;
+
             _images = new ObservableCollection<ImageViewModel>();
             AddFilesCommand = new ViewModelCommand(AddFilesCommandExecuted);
             AddFromFolderCommand = new ViewModelCommand(AddFromFolderCommandExecuted);
@@ -42,6 +50,24 @@ namespace ImageShrinker2.ViewModels
             _images.CollectionChanged += ImagesOnCollectionChanged;
             Scale = 100.0;
             Quality = 90;
+        }
+
+        public bool ImageDataChangedForCalculation
+        {
+            get { return _imageDataChangedForCalculation; }
+            set
+            {
+                _imageDataChangedForCalculation = value;
+                _timer.IsEnabled = _imageDataChangedForCalculation;
+            }
+        }
+
+        private void TimerOnTick(object sender, EventArgs eventArgs)
+        {
+            if (ViewService.AsyncJobRunning) return;
+            if (!ImageDataChangedForCalculation) return;
+            if (_images.Count(i => i.IsSelected) == 0) return;
+            ViewService.ExecuteAsyncJob(this, (MainWindow)ViewService.MainWindow, new CalculateCompressedSizeJob());
         }
 
         private void ImagesOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -56,6 +82,11 @@ namespace ImageShrinker2.ViewModels
             {
                 OnPropertyChanged("DesiredWidth");
                 OnPropertyChanged("DesiredHeight");
+                ImageDataChangedForCalculation = true;
+            }
+            else if (e.PropertyName == "Quality")
+            {
+                ImageDataChangedForCalculation = true;
             }
         }
 
@@ -123,9 +154,14 @@ namespace ImageShrinker2.ViewModels
             imageViewModel.PropertyChanged += (s, e) =>
             {
                 if (e.PropertyName == "IsSelected")
+                {
+                    ImageDataChangedForCalculation = true;
                     OnPropertyChanged("SelectedImageCount");
+                }
+                
             };
             _images.Add(imageViewModel);
+            ImageDataChangedForCalculation = true;
         }
 
         public long Quality
@@ -150,6 +186,12 @@ namespace ImageShrinker2.ViewModels
         {
             get { return _scale; }
             set { SetBackingField("Scale", ref _scale, value ); }
+        }
+
+        public double CompressedSize
+        {
+            get { return _compressedSize; }
+            set { SetBackingField("CompressedSize", ref _compressedSize, value); }
         }
 
         public int DesiredWidth { get { return (int) (_maxWidth * Scale * 0.01); } }
