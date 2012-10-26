@@ -64,6 +64,8 @@
             <MenuItem Header="Erstellen">
                 <MenuItem Header="In Verzeichnis erstellen ..." Command="{Binding SaveToFolderCommand}" />
                 <MenuItem Header="Archiv erstellen ..." Command="{Binding PackToFolderCommand}" />
+                <Separator />
+                <MenuItem Header="Per E-Mail versenden ..." Command="{Binding SendPerMailCommand}" />
             </MenuItem>
             <MenuItem Header="Info">
                 <MenuItem Header="Über ..." Command="{Binding ShowInfoCommand}" />
@@ -83,6 +85,9 @@
                 </Button>
                 <Button ToolTip="Archiv erstellen ..." Command="{Binding PackToFolderCommand}" >
                     <Image Source="Images/savetozip.png" Width="32" Height="32" />
+                </Button>
+                <Button ToolTip="Per E-Mail versenden ..." Command="{Binding SendPerMailCommand}" >
+                    <Image Source="Images/email.png" Width="32" Height="32" />
                 </Button>
             </ToolBar>
         </ToolBarTray>

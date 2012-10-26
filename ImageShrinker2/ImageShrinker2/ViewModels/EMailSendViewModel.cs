@@ -2,6 +2,9 @@
 using System.Collections.ObjectModel;
 using System.Security;
 using ImageShrinker2.Framework;
+using ImageShrinker2.Jobs;
+using ImageShrinker2.Properties;
+using ImageShrinker2.Windows;
 
 namespace ImageShrinker2.ViewModels
 {
@@ -15,10 +18,24 @@ namespace ImageShrinker2.ViewModels
         private readonly ObservableCollection<EMailProviderViewModel> _providers;
         private EMailProviderViewModel _selectedProvider;
         private SecureString _password;
+        private readonly ImageShrinkerViewModel _imageShrinkerViewModel;
 
-        public EMailSendViewModel()
+        public ViewModelCommand SendCommand { get; private set; }
+
+        public EMailSendViewModel(ImageShrinkerViewModel context)
         {
-            _providers = new ObservableCollection<EMailProviderViewModel>();
+            _imageShrinkerViewModel = context;
+            _providers = new ObservableCollection<EMailProviderViewModel>
+            {
+                new EMailProviderViewModel {Name = "GMX", Pop3 = Settings.Default.GmxPop3, Smpt = Settings.Default.GmxSmpt}
+            };
+
+            SendCommand = new ViewModelCommand(SendEMailExecuted);
+        }
+
+        private void SendEMailExecuted()
+        {
+            ViewService.ExecuteAsyncJob(_imageShrinkerViewModel, new ProgressWindow { Owner = ViewService.EMailSendWindow }, new SendEMailJob(this));
         }
 
         public ReadOnlyObservableCollection<EMailProviderViewModel> Providers

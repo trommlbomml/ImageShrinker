@@ -3,5 +3,5 @@
 *.suo
 bin/
 obj/
-Setup/ImageShrinker2-*/
+ImageShrinker2-*/
 _ReSharper.*/

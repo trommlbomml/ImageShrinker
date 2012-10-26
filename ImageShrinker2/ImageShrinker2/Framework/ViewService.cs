@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Forms;
 using ImageShrinker2.ViewModels;
+using ImageShrinker2.Windows;
 using Application = System.Windows.Application;
 using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
 
@@ -22,6 +23,17 @@ namespace ImageShrinker2.Framework
             }
         }
 
+        private static Window _eMailSendWindow;
+        public static Window EMailSendWindow
+        {
+            get
+            {
+                if (_eMailSendWindow == null)
+                    _eMailSendWindow = GetWindow(typeof(ProgressWindow));
+                return _eMailSendWindow;
+            }
+        }
+
         public static bool AsyncJobRunning { get; private set; }
 
         private static Window GetWindow(Type windowType)
@@ -33,6 +45,16 @@ namespace ImageShrinker2.Framework
             }
 
             throw new InvalidOperationException(string.Format("There is no Window of type '{0}'", windowType.FullName));
+        }
+
+        public static void ShowDialog(ViewModel dataContext)
+        {
+            Window window = Application.Current.TryFindResource(dataContext.GetType()) as Window;
+            if (window == null)
+                throw new InvalidOperationException(string.Format("There is no Window for type {0}", dataContext.GetType().FullName));
+
+            window.DataContext = dataContext;
+            window.ShowDialog();
         }
 
         public static bool ChooseFilesDialog(out string[] file)

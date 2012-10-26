@@ -2,8 +2,11 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="ImageShrinker2.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="Test" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+    <Setting Name="GmxPop3" Type="System.String" Scope="User">
+      <Value Profile="(Default)">pop.gmx.net</Value>
+    </Setting>
+    <Setting Name="GmxSmpt" Type="System.String" Scope="User">
+      <Value Profile="(Default)">mail.gmx.net</Value>
     </Setting>
   </Settings>
 </SettingsFile>

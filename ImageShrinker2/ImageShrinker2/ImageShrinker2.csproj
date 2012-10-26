@@ -73,6 +73,7 @@
     <Compile Include="Jobs\CopyToFolderJob.cs" />
     <Compile Include="Jobs\LoadFromFolderJob.cs" />
     <Compile Include="Jobs\PackToDirectoryJob.cs" />
+    <Compile Include="Jobs\SendEMailJob.cs" />
     <Compile Include="Model\ImageModel.cs" />
     <Compile Include="ViewModels\EMailProviderViewModel.cs" />
     <Compile Include="ViewModels\EMailSendViewModel.cs" />
@@ -148,6 +149,9 @@
   <ItemGroup>
     <Resource Include="Images\rotateccw.png" />
     <Resource Include="Images\rotatecw.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\email.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

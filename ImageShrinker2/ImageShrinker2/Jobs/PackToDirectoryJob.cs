@@ -6,11 +6,11 @@ namespace ImageShrinker2.Jobs
 {
     class PackToDirectoryJob : CopyToFolderJob
     {
-        private string _packDirectory;
+        protected string PackDirectory;
 
         public PackToDirectoryJob(string directory) : base(string.Empty)
         {
-            _packDirectory = directory;
+            PackDirectory = directory;
             CopyToDirectory = Path.Combine(Path.GetTempPath(), "ImageShrinker");
         }
 
@@ -27,7 +27,7 @@ namespace ImageShrinker2.Jobs
                     {
                         zipFile.AddFile(file, ImageShrinkerViewModel.ArchiveName);
                     }
-                    zipFile.Save(Path.Combine(_packDirectory, ImageShrinkerViewModel.ArchiveName + ".zip"));
+                    zipFile.Save(Path.Combine(PackDirectory, ImageShrinkerViewModel.ArchiveName + ".zip"));
                 }
             }
             finally

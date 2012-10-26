@@ -33,6 +33,7 @@ namespace ImageShrinker2.ViewModels
         public ViewModelCommand SaveToFolderCommand { get; private set; }
         public ViewModelCommand PackToFolderCommand { get; private set; }
         public ViewModelCommand ShowInfoCommand { get; private set; }
+        public ViewModelCommand SendPerMailCommand { get; private set; }
 
         public ImageShrinkerViewModel()
         {
@@ -45,11 +46,18 @@ namespace ImageShrinker2.ViewModels
             SaveToFolderCommand = new ViewModelCommand(SaveToFolderCommandExecuted);
             PackToFolderCommand = new ViewModelCommand(PackToFolderCommandExecuted);
             ShowInfoCommand = new ViewModelCommand(() => new InfoWindow().ShowDialog());
+            SendPerMailCommand = new ViewModelCommand(SendPerMailCommandExecuted);
 
             PropertyChanged += OnViewModelPropertyChanged;
             _images.CollectionChanged += ImagesOnCollectionChanged;
             Scale = 100.0;
             Quality = 90;
+        }
+
+        private void SendPerMailCommandExecuted()
+        {
+            EMailSendViewModel eMailSendViewModel = new EMailSendViewModel(this);
+            ViewService.ShowDialog(eMailSendViewModel);
         }
 
         public bool ImageDataChangedForCalculation
@@ -110,21 +118,21 @@ namespace ImageShrinker2.ViewModels
         {
             string path;
             if (ViewService.ChooseFolderDialog(out path))
-                ViewService.ExecuteAsyncJob(this, new ProgressWindow(), new PackToDirectoryJob(path));
+                ViewService.ExecuteAsyncJob(this, new ProgressWindow {Owner = ViewService.MainWindow}, new PackToDirectoryJob(path));
         }
 
         private void SaveToFolderCommandExecuted()
         {
             string path;
             if (ViewService.ChooseFolderDialog(out path))
-                ViewService.ExecuteAsyncJob(this, new ProgressWindow(), new CopyToFolderJob(path));
+                ViewService.ExecuteAsyncJob(this, new ProgressWindow { Owner = ViewService.MainWindow }, new CopyToFolderJob(path));
         }
 
         private void AddFromFolderCommandExecuted()
         {
             string path;
             if (ViewService.ChooseFolderDialog(out path))
-                ViewService.ExecuteAsyncJob(this, new ProgressWindow(), new LoadFromFolderJob(path));
+                ViewService.ExecuteAsyncJob(this, new ProgressWindow { Owner = ViewService.MainWindow }, new LoadFromFolderJob(path));
             SelectFirstImage();
         }
         
@@ -136,7 +144,7 @@ namespace ImageShrinker2.ViewModels
                 if (files.Length <= 10)
                     foreach (string file in files) AddImage(ImageModel.CreateFromFile(file));
                 else
-                    ViewService.ExecuteAsyncJob(this, new ProgressWindow(), new LoadFromFilesJob(files));
+                    ViewService.ExecuteAsyncJob(this, new ProgressWindow { Owner = ViewService.MainWindow }, new LoadFromFilesJob(files));
             }
 
             SelectFirstImage();

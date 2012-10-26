@@ -25,13 +25,25 @@ namespace ImageShrinker2.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string Test {
+        [global::System.Configuration.DefaultSettingValueAttribute("pop.gmx.net")]
+        public string GmxPop3 {
             get {
-                return ((string)(this["Test"]));
+                return ((string)(this["GmxPop3"]));
             }
             set {
-                this["Test"] = value;
+                this["GmxPop3"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("mail.gmx.net")]
+        public string GmxSmpt {
+            get {
+                return ((string)(this["GmxSmpt"]));
+            }
+            set {
+                this["GmxSmpt"] = value;
             }
         }
     }
