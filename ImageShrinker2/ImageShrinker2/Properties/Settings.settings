@@ -2,11 +2,17 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="ImageShrinker2.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="GmxPop3" Type="System.String" Scope="User">
-      <Value Profile="(Default)">pop.gmx.net</Value>
-    </Setting>
     <Setting Name="GmxSmpt" Type="System.String" Scope="User">
       <Value Profile="(Default)">mail.gmx.net</Value>
+    </Setting>
+    <Setting Name="WebSmpt" Type="System.String" Scope="User">
+      <Value Profile="(Default)">smtp.web.de</Value>
+    </Setting>
+    <Setting Name="TOnlineSmpt" Type="System.String" Scope="User">
+      <Value Profile="(Default)">smtpmail.t-online.de</Value>
+    </Setting>
+    <Setting Name="FreenetSmpt" Type="System.String" Scope="User">
+      <Value Profile="(Default)">mx.freenet.de</Value>
     </Setting>
   </Settings>
 </SettingsFile>

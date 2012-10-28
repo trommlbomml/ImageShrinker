@@ -30,10 +30,12 @@ namespace ImageShrinker2.Jobs
         {
             foreach (string file in _files)
             {
-                if (new FileInfo(file).Attributes == FileAttributes.Directory)
-                    continue;
+                if (new FileInfo(file).Attributes == FileAttributes.Directory) continue;
 
-                string extension = Path.GetExtension(file).ToLower();
+                string extension = Path.GetExtension(file);
+                if (string.IsNullOrEmpty(extension)) continue;
+
+                extension = extension.ToLower();
                 if (extension == ".jpg" || extension == ".jpeg")
                 {
                     ImageViewModel imageViewModel = ImageModel.CreateFromFile(file);

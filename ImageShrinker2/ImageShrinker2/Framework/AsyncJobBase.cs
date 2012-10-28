@@ -16,30 +16,19 @@ namespace ImageShrinker2.Framework
 
         protected void InvokeIncreasingProgress(Action action)
         {
-            Ui.UpdateDispatcher.Invoke(DispatcherPriority.Normal, (Action)delegate
-                                                                      {
-                                                                          Ui.ProgressValue += 1;
-                                                                          action();
-                                                                      });
+            Ui.UpdateDispatcher.Invoke(DispatcherPriority.Normal, 
+                                       (Action)delegate { Ui.ProgressValue += 1; action(); });
         }
 
         protected void InvokeIncreasingProgress(string text, Action action)
         {
-            Ui.UpdateDispatcher.Invoke(DispatcherPriority.Normal, (Action)delegate
-            {
-                Ui.ProgressValue += 1;
-                Ui.MessageText = text;
-                action();
-            });
+            Ui.UpdateDispatcher.Invoke(DispatcherPriority.Normal,
+                                       (Action)delegate { Ui.ProgressValue += 1; Ui.MessageText = text; action(); });
         }
 
         protected void IncreasingProgress(string text)
         {
-            Ui.UpdateDispatcher.Invoke(DispatcherPriority.Normal, (Action)delegate
-            {
-                Ui.ProgressValue += 1;
-                Ui.MessageText = text;
-            });
+            InvokeIncreasingProgress(text, () => { });
         }
 
         public virtual void Prepare(ImageShrinkerViewModel imageShrinkerViewModel, IBackgroundWorkerUi ui)

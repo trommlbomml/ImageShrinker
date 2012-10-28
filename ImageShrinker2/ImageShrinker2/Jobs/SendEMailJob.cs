@@ -5,10 +5,8 @@ using System.IO;
 using System.Net;
 using System.Net.Mail;
 using System.Threading;
-using System.Windows;
 using ImageShrinker2.Framework;
 using ImageShrinker2.ViewModels;
-using log4net;
 
 namespace ImageShrinker2.Jobs
 {

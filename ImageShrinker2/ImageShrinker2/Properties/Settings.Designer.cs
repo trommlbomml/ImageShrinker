@@ -25,18 +25,6 @@ namespace ImageShrinker2.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("pop.gmx.net")]
-        public string GmxPop3 {
-            get {
-                return ((string)(this["GmxPop3"]));
-            }
-            set {
-                this["GmxPop3"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("mail.gmx.net")]
         public string GmxSmpt {
             get {
@@ -44,6 +32,42 @@ namespace ImageShrinker2.Properties {
             }
             set {
                 this["GmxSmpt"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("smtp.web.de")]
+        public string WebSmpt {
+            get {
+                return ((string)(this["WebSmpt"]));
+            }
+            set {
+                this["WebSmpt"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("smtpmail.t-online.de")]
+        public string TOnlineSmpt {
+            get {
+                return ((string)(this["TOnlineSmpt"]));
+            }
+            set {
+                this["TOnlineSmpt"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("mx.freenet.de")]
+        public string FreenetSmpt {
+            get {
+                return ((string)(this["FreenetSmpt"]));
+            }
+            set {
+                this["FreenetSmpt"] = value;
             }
         }
     }

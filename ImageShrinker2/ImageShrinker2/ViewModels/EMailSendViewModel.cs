@@ -28,10 +28,12 @@ namespace ImageShrinker2.ViewModels
             _imageShrinkerViewModel = context;
             _providers = new ObservableCollection<EMailProviderViewModel>
             {
-                new EMailProviderViewModel {Name = "GMX", Pop3 = Settings.Default.GmxPop3, Smpt = Settings.Default.GmxSmpt}
+                new EMailProviderViewModel {Name = "Freenet", Smpt = Settings.Default.FreenetSmpt},
+                new EMailProviderViewModel {Name = "GMX", Smpt = Settings.Default.GmxSmpt},
+                new EMailProviderViewModel {Name = "T-Online", Smpt = Settings.Default.TOnlineSmpt},
+                new EMailProviderViewModel {Name = "Web.de", Smpt = Settings.Default.WebSmpt},
             };
             Subject = "Kein Betreff";
-
             SendCommand = new ViewModelCommand(SendEMailExecuted);
         }
 

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Windows.Media.Imaging;
 using ImageShrinker2.ViewModels;
 using DrawImaging = System.Drawing.Imaging;
