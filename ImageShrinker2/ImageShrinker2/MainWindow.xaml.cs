@@ -1,5 +1,4 @@
 ﻿
-using System;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Threading;
@@ -14,7 +13,6 @@ namespace ImageShrinker2
         {
             InitializeComponent();
             DataContext = new ImageShrinkerViewModel {ArchiveName = "BilderArchiv"};
-            Aborting = false;
             Closing += MainWindowClosing;
             MessageText = "ImageShrinker: Ruht";
             _progressBar.Visibility = Visibility.Collapsed;
@@ -22,12 +20,10 @@ namespace ImageShrinker2
 
         void MainWindowClosing(object sender, CancelEventArgs e)
         {
-            if (Aborting)
+            if (Worker != null && Worker.IsBusy)
                 Worker.CancelAsync();
-            e.Cancel = Aborting;
         }
 
-        public bool Aborting { get; set; }
         public BackgroundWorker Worker { get; set; }
 
         public string MessageText

@@ -32,9 +32,9 @@
                 <Label Content="E-Mail Adresse:" Grid.Row="1" Grid.Column="0" />
                 <Label Content="Passwort:" Grid.Row="2" Grid.Column="0" />
                 
-                <ComboBox Grid.Row="0" Grid.Column="1" ItemsSource="{Binding Providers}" DisplayMemberPath="Name" />
+                <ComboBox Grid.Row="0" Grid.Column="1" ItemsSource="{Binding Providers}" SelectedItem="{Binding SelectedProvider}" DisplayMemberPath="Name" />
                 <TextBox Text="{Binding EMailAdress}" Grid.Row="1" Grid.Column="1" />
-                <PasswordBox x:Name="_password" Grid.Row="2" Grid.Column="1" />
+                <PasswordBox x:Name="_password" PasswordChanged="PasswordPasswordChanged" Grid.Row="2" Grid.Column="1" />
             </Grid>
         </Expander>
         
@@ -45,6 +45,7 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
@@ -53,14 +54,16 @@
                     </Grid.ColumnDefinitions>
                     
                     <Label Content="An:" Grid.Row="0" Grid.Column="0" />
-                    <Label Content="CC:" Grid.Row="1" Grid.Column="0" />
-                    
                     <TextBox Text="{Binding Adressors}" Grid.Row="0" Grid.Column="1" />
-                    <TextBox Text="{Binding CopyAdressors}" Grid.Row="1" Grid.Column="1" />
-
                     <Button Content="An:" Grid.Row="0" Grid.Column="2" />
-                    <Button Content="Cc:"  Grid.Row="1" Grid.Column="2" />
                     
+                    <Label Content="CC:" Grid.Row="1" Grid.Column="0" />
+                    <TextBox Text="{Binding CopyAdressors}" Grid.Row="1" Grid.Column="1" />
+                    <Button Content="Cc:"  Grid.Row="1" Grid.Column="2" />
+
+                    <Label Content="Betreff:" Grid.Row="2" Grid.Column="0" />
+                    <TextBox Text="{Binding Subject}" Grid.Row="2" Grid.Column="1" />
+
                 </Grid>
                 
                 <TextBox Text="{Binding Message}" AcceptsReturn="True" AcceptsTab="True" DockPanel.Dock="Bottom" />
@@ -68,7 +71,7 @@
         </HeaderedContentControl>
         
         <UniformGrid Grid.Row="2" Columns="2" HorizontalAlignment="Right">
-            <Button Content="Senden" />
+            <Button Content="Senden" Command="{Binding SendCommand}" />
             <Button Content="Abbrechen" />
         </UniformGrid>
     </Grid>

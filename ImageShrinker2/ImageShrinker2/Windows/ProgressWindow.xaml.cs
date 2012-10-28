@@ -10,19 +10,16 @@ namespace ImageShrinker2.Windows
         public ProgressWindow()
         {
             InitializeComponent();
-            Aborting = false;
             Closing += ProgressWindowClosing;
         }
 
         void ProgressWindowClosing(object sender, CancelEventArgs e)
         {
-            if (Aborting)
+            if (Worker != null && Worker.IsBusy)
                 Worker.CancelAsync();
-            e.Cancel = Aborting;
         }
 
         public BackgroundWorker Worker { get; set; }
-        public bool Aborting { get; set; }
 
         public string MessageText
         {

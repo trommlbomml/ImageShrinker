@@ -57,7 +57,12 @@ namespace ImageShrinker2.ViewModels
         private void SendPerMailCommandExecuted()
         {
             EMailSendViewModel eMailSendViewModel = new EMailSendViewModel(this);
-            ViewService.ShowDialog(eMailSendViewModel);
+            EMailSendWindow window = new EMailSendWindow
+                                         {
+                                             DataContext = eMailSendViewModel,
+                                             Owner = ViewService.MainWindow,
+                                         };
+            window.ShowDialog();
         }
 
         public bool ImageDataChangedForCalculation

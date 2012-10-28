@@ -19,6 +19,7 @@ namespace ImageShrinker2.ViewModels
         private EMailProviderViewModel _selectedProvider;
         private SecureString _password;
         private readonly ImageShrinkerViewModel _imageShrinkerViewModel;
+        private string _subject;
 
         public ViewModelCommand SendCommand { get; private set; }
 
@@ -29,6 +30,7 @@ namespace ImageShrinker2.ViewModels
             {
                 new EMailProviderViewModel {Name = "GMX", Pop3 = Settings.Default.GmxPop3, Smpt = Settings.Default.GmxSmpt}
             };
+            Subject = "Kein Betreff";
 
             SendCommand = new ViewModelCommand(SendEMailExecuted);
         }
@@ -77,6 +79,12 @@ namespace ImageShrinker2.ViewModels
         {
             get { return _password; }
             set { SetBackingField("Password", ref _password, value); }
+        }
+
+        public string Subject
+        {
+            get { return _subject; }
+            set { SetBackingField("Subject", ref _subject, value); }
         }
     }
 }

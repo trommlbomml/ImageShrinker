@@ -6,7 +6,6 @@ namespace ImageShrinker2.Framework
 {
     interface IBackgroundWorkerUi
     {
-        bool Aborting { get; set; }
         string MessageText { get; set; }
         double ProgressMinimum { get; set; }
         double ProgressMaximum { get; set; }

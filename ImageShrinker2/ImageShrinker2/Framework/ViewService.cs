@@ -29,7 +29,7 @@ namespace ImageShrinker2.Framework
             get
             {
                 if (_eMailSendWindow == null)
-                    _eMailSendWindow = GetWindow(typeof(ProgressWindow));
+                    _eMailSendWindow = GetWindow(typeof(EMailSendWindow));
                 return _eMailSendWindow;
             }
         }
@@ -45,16 +45,6 @@ namespace ImageShrinker2.Framework
             }
 
             throw new InvalidOperationException(string.Format("There is no Window of type '{0}'", windowType.FullName));
-        }
-
-        public static void ShowDialog(ViewModel dataContext)
-        {
-            Window window = Application.Current.TryFindResource(dataContext.GetType()) as Window;
-            if (window == null)
-                throw new InvalidOperationException(string.Format("There is no Window for type {0}", dataContext.GetType().FullName));
-
-            window.DataContext = dataContext;
-            window.ShowDialog();
         }
 
         public static bool ChooseFilesDialog(out string[] file)
@@ -100,7 +90,6 @@ namespace ImageShrinker2.Framework
             backgroundWorker.DoWork += job.BackgroundWorkerOnDoWork;
             backgroundWorker.RunWorkerCompleted += (s, e) =>
             {
-                uiResponder.Aborting = false; 
                 uiResponder.OnWorkerCompleted();
                 AsyncJobRunning = false;
             };

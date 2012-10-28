@@ -1,8 +1,10 @@
 ﻿
 using System;
 using System.ComponentModel;
+using System.Windows;
 using System.Windows.Threading;
 using ImageShrinker2.ViewModels;
+using log4net;
 
 namespace ImageShrinker2.Framework
 {
@@ -44,6 +46,12 @@ namespace ImageShrinker2.Framework
         {
             ImageShrinkerViewModel = imageShrinkerViewModel;
             Ui = ui;
+        }
+
+        protected void HandleError(Exception ex, string logBase, string caption, string messageBoxText)
+        {
+            LogManager.GetLogger(typeof(AsyncJobBase)).Error(logBase, ex);
+            MessageBox.Show(caption, messageBoxText, MessageBoxButton.OK);
         }
 
         public abstract void BackgroundWorkerOnDoWork(object sender, DoWorkEventArgs doWorkEventArgs);
