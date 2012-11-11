@@ -6,6 +6,7 @@
         MinHeight="480"
         Width="800"
         Height="600"
+        Background="{DynamicResource WindowBackgroundBrush}"
         WindowStartupLocation="CenterScreen">
     <Window.Resources>
         <DataTemplate x:Key="ImageViewDataTemplate">
@@ -41,7 +42,30 @@
                 </Grid>
             </Border>
         </DataTemplate>
-        
+
+
+        <DrawingBrush x:Key="ImageBackgroundTileBrush" Opacity="0.25" Viewport="0,0,32,32" ViewportUnits="Absolute" TileMode="Tile">
+            <DrawingBrush.Drawing>
+                <DrawingGroup>
+                    <GeometryDrawing Brush="#FF222222">
+                        <GeometryDrawing.Geometry>
+                            <RectangleGeometry Rect="0,0,32,32" />
+                        </GeometryDrawing.Geometry>
+                    </GeometryDrawing>
+
+                    <GeometryDrawing Brush="#FF444444">
+                        <GeometryDrawing.Geometry>
+                            <GeometryGroup>
+                                <RectangleGeometry Rect="0,0,16,16" />
+                                <RectangleGeometry Rect="16,16,16,16" />
+                            </GeometryGroup>
+                        </GeometryDrawing.Geometry>
+                    </GeometryDrawing>
+                </DrawingGroup>
+            </DrawingBrush.Drawing>
+        </DrawingBrush>
+
+
         <Style x:Key="ImageViewStyleTemplate" TargetType="{x:Type ListViewItem}">
             <Setter Property="HorizontalAlignment" Value="Stretch" />
             <Setter Property="HorizontalContentAlignment" Value="Stretch" />
@@ -71,26 +95,24 @@
                 <MenuItem Header="Über ..." Command="{Binding ShowInfoCommand}" />
             </MenuItem>
         </Menu>
-        
-        <ToolBarTray Grid.Row="1">
-            <ToolBar>
-                <Button ToolTip="Bilder hinzufügen ..." Command="{Binding AddFilesCommand}" >
-                    <Image Source="Images/addimages.png" Width="32" Height="32" />
-                </Button>
-                <Button ToolTip="Bilder aus Verzeichnis hinzufügen ..." Command="{Binding AddFromFolderCommand}" >
-                    <Image Source="Images/addfromfolder.png" Width="32" Height="32" />
-                </Button>
-                <Button ToolTip="In Verzeichnis erstellen ..." Command="{Binding SaveToFolderCommand}" >
-                    <Image Source="Images/savetofolder.png" Width="32" Height="32" />
-                </Button>
-                <Button ToolTip="Archiv erstellen ..." Command="{Binding PackToFolderCommand}" >
-                    <Image Source="Images/savetozip.png" Width="32" Height="32" />
-                </Button>
-                <Button ToolTip="Per E-Mail versenden ..." Command="{Binding SendPerMailCommand}" >
-                    <Image Source="Images/email.png" Width="32" Height="32" />
-                </Button>
-            </ToolBar>
-        </ToolBarTray>
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal">
+            <Button ToolTip="Bilder hinzufügen ..." Command="{Binding AddFilesCommand}" >
+                <Image Source="Images/addimages.png" Width="32" Height="32" />
+            </Button>
+            <Button ToolTip="Bilder aus Verzeichnis hinzufügen ..." Command="{Binding AddFromFolderCommand}" >
+                <Image Source="Images/addfromfolder.png" Width="32" Height="32" />
+            </Button>
+            <Button ToolTip="In Verzeichnis erstellen ..." Command="{Binding SaveToFolderCommand}" >
+                <Image Source="Images/savetofolder.png" Width="32" Height="32" />
+            </Button>
+            <Button ToolTip="Archiv erstellen ..." Command="{Binding PackToFolderCommand}" >
+                <Image Source="Images/savetozip.png" Width="32" Height="32" />
+            </Button>
+            <Button ToolTip="Per E-Mail versenden ..." Command="{Binding SendPerMailCommand}" >
+                <Image Source="Images/email.png" Width="32" Height="32" />
+            </Button>
+        </StackPanel>
 
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
@@ -108,39 +130,40 @@
                 <ListView 
                     Margin="1"
                     ItemsSource="{Binding Images}" 
+                    AllowDrop="True"
+                    Drop="ListView_Drop"
+                    DragOver="ListView_DragOver"
                     SelectedItem="{Binding SelectedImage}"
                     ItemTemplate="{StaticResource ImageViewDataTemplate}" 
                     ItemContainerStyle="{StaticResource ImageViewStyleTemplate}"/>
 
-                <Border Grid.Row="1" BorderBrush="Black" BorderThickness="1" Margin="1">
-                    <Expander Header="Information" IsExpanded="true">
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
+                <Expander Grid.Row="1" Margin="1" Header="Information" IsExpanded="true">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
 
-                            <TextBlock Margin="1" Text="Selected Images:" Grid.Row="0" Grid.Column="0" />
-                            <TextBlock Margin="1" Text="Compressed Size:" Grid.Row="1" Grid.Column="0" />
+                        <TextBlock Margin="1" Text="Selected Images:" Grid.Row="0" Grid.Column="0" />
+                        <TextBlock Margin="1" Text="Compressed Size:" Grid.Row="1" Grid.Column="0" />
 
-                            <TextBlock Margin="1" Text="{Binding SelectedImageCount}" Grid.Row="0" Grid.Column="1" />
+                        <TextBlock Margin="1" Text="{Binding SelectedImageCount}" Grid.Row="0" Grid.Column="1" />
 
-                            <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="1">
-                                <TextBlock Margin="1" Text="{Binding CompressedSize, StringFormat='0.00'}" />
-                                <TextBlock Margin="1" Text="MB" />
-                            </StackPanel>
+                        <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="1">
+                            <TextBlock Margin="1" Text="{Binding CompressedSize, StringFormat='0.00'}" />
+                            <TextBlock Margin="1" Text="MB" />
+                        </StackPanel>
                             
-                        </Grid>
-                    </Expander>
-                </Border>
+                    </Grid>
+                </Expander>
 
             </Grid>
 
-            <GridSplitter Grid.Column="1" Width="4" ResizeBehavior="PreviousAndNext" ResizeDirection="Columns" />
+            <GridSplitter Grid.Column="1" Width="4" ResizeBehavior="PreviousAndNext" Background="Transparent" ResizeDirection="Columns" />
 
 
             <Grid Grid.Column="2">
@@ -150,62 +173,62 @@
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
-                <Border BorderBrush="Black" BorderThickness="1" Margin="1">
-                    <HeaderedContentControl Grid.Row="0" VerticalContentAlignment="Stretch" VerticalAlignment="Stretch">
-                        <HeaderedContentControl.Header>
-                            <StackPanel Orientation="Horizontal">
-                                <Label Content="Archivname:" />
-                                <TextBox Text="{Binding ArchiveName}" Width="200" />
-                            </StackPanel>
-                        </HeaderedContentControl.Header>
-
+                <HeaderedContentControl 
+                    Margin="1" 
+                    Grid.Row="0" 
+                    VerticalContentAlignment="Stretch" 
+                    VerticalAlignment="Stretch">
+                    <HeaderedContentControl.Header>
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="Archivname:" />
+                            <TextBox Text="{Binding ArchiveName}" Width="200" />
+                        </StackPanel>
+                    </HeaderedContentControl.Header>
+                    <Border Background="{StaticResource ImageBackgroundTileBrush}">
                         <Image Margin="5" Source="{Binding SelectedImage.Path}" >
                             <Image.LayoutTransform>
                                 <RotateTransform Angle="{Binding SelectedImage.Rotation}" />
                             </Image.LayoutTransform>
                         </Image>
+                    </Border>
+                </HeaderedContentControl>
 
-                    </HeaderedContentControl>
-                </Border>
+                <Expander Grid.Row="1" Margin="1" Header="Manipulation" IsExpanded="true">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="100" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
 
-                <Border Grid.Row="1" BorderBrush="Black" BorderThickness="1" Margin="1">
-                    <Expander Header="Manipulation" IsExpanded="true">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="100" />
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                            </Grid.RowDefinitions>
+                        <TextBlock Margin="1" Text="Mittlere Bildgröße (Pixel):" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center"/>
+                        <TextBlock Margin="1" Text="Qualität (%):" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" />
 
-                            <TextBlock Margin="1" Text="Mittlere Bildgröße (Pixel):" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center"/>
-                            <TextBlock Margin="1" Text="Qualität (%):" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" />
+                        <Slider Margin="1" Minimum="1" Maximum="100" Value="{Binding Scale}" Grid.Row="0" Grid.Column="1" />
+                        <Slider Margin="1" Minimum="25" Maximum="100" Value="{Binding Quality}" Grid.Row="1" Grid.Column="1" />
 
-                            <Slider Margin="1" Minimum="1" Maximum="100" Value="{Binding Scale}" Grid.Row="0" Grid.Column="1" />
-                            <Slider Margin="1" Minimum="25" Maximum="100" Value="{Binding Quality}" Grid.Row="1" Grid.Column="1" />
-
-                            <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="2">
-                                <TextBlock Margin="1" Text="{Binding DesiredWidth}" VerticalAlignment="Center" />
-                                <TextBlock Margin="1" Text="x" VerticalAlignment="Center" />
-                                <TextBlock Margin="1" Text="{Binding DesiredHeight}" VerticalAlignment="Center" />
-                            </StackPanel>
-                            <TextBlock Text="{Binding Quality}"  Grid.Row="1" Grid.Column="2" VerticalAlignment="Center" />
+                        <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="2">
+                            <TextBlock Margin="1" Text="{Binding DesiredWidth}" VerticalAlignment="Center" />
+                            <TextBlock Margin="1" Text="x" VerticalAlignment="Center" />
+                            <TextBlock Margin="1" Text="{Binding DesiredHeight}" VerticalAlignment="Center" />
+                        </StackPanel>
+                        <TextBlock Text="{Binding Quality}"  Grid.Row="1" Grid.Column="2" VerticalAlignment="Center" />
                             
-                            <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="3">
-                                <Button Margin="1" Command="{Binding SelectedImage.RotateCcwCommand}">
-                                    <Image Source="Images/rotateccw.png" />
-                                </Button>
-                                <Button Margin="1" Command="{Binding SelectedImage.RotateCwCommand}">
-                                    <Image Source="Images/rotatecw.png" />
-                                </Button>
-                            </StackPanel>
-                        </Grid>
-                    </Expander>
-                </Border>
+                        <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="3">
+                            <Button Margin="1" Command="{Binding SelectedImage.RotateCcwCommand}">
+                                <Image Source="Images/rotateccw.png" />
+                            </Button>
+                            <Button Margin="1" Command="{Binding SelectedImage.RotateCwCommand}">
+                                <Image Source="Images/rotatecw.png" />
+                            </Button>
+                        </StackPanel>
+                    </Grid>
+                </Expander>
                 
             </Grid>
             

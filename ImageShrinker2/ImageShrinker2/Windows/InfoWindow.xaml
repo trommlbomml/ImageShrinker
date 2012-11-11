@@ -5,6 +5,7 @@
         Title="Über ImageShrinker 2" 
         Width="300"
         SizeToContent="Height"
+        Background="{DynamicResource WindowBackgroundBrush}"
         ShowInTaskbar="false"
         WindowStyle="SingleBorderWindow"
         WindowStartupLocation="CenterOwner"

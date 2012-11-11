@@ -68,5 +68,16 @@ namespace ImageShrinker2
         }
 
         public Dispatcher UpdateDispatcher { get { return Dispatcher; } }
+
+        private void ListView_Drop(object sender, DragEventArgs e)
+        {
+        }
+
+        private void ListView_DragOver(object sender, DragEventArgs e)
+        {
+            DataObject dataObject = e.Data as DataObject;
+            if (dataObject == null) return;
+            string t = dataObject.GetText();
+        }
     }
 }

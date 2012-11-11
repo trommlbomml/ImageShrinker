@@ -4,6 +4,7 @@
         Title="Send E-Mail" 
         MinWidth="400"
         MinHeight="300"
+        Background="{DynamicResource WindowBackgroundBrush}"
         Owner="{x:Static Framework:ViewService.MainWindow}"
         WindowStartupLocation="CenterOwner"
         ShowInTaskbar="false"

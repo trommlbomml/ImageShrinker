@@ -3,5 +3,18 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Theming/CommonResources.xaml" />
+                <ResourceDictionary Source="Theming/Button.xaml" />
+                <ResourceDictionary Source="Theming/TextBlock.xaml" />
+                <ResourceDictionary Source="Theming/Expander.xaml" />
+                <ResourceDictionary Source="Theming/HeaderedContentControl.xaml" />
+                <ResourceDictionary Source="Theming/Slider.xaml" />
+                <ResourceDictionary Source="Theming/Statusbar.xaml" />
+                <ResourceDictionary Source="Theming/ListView.xaml" />
+                <ResourceDictionary Source="Theming/TextBox.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>
