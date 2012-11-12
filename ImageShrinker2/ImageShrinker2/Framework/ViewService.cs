@@ -88,6 +88,7 @@ namespace ImageShrinker2.Framework
         {
             BackgroundWorker backgroundWorker = new BackgroundWorker();
             backgroundWorker.DoWork += job.BackgroundWorkerOnDoWork;
+            backgroundWorker.WorkerSupportsCancellation = true;
             backgroundWorker.RunWorkerCompleted += (s, e) =>
             {
                 uiResponder.OnWorkerCompleted();

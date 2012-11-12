@@ -197,7 +197,7 @@
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="100" />
+                            <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
@@ -209,8 +209,8 @@
                         <TextBlock Margin="1" Text="Mittlere Bildgröße (Pixel):" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center"/>
                         <TextBlock Margin="1" Text="Qualität (%):" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" />
 
-                        <Slider Margin="1" Minimum="1" Maximum="100" Value="{Binding Scale}" Grid.Row="0" Grid.Column="1" />
-                        <Slider Margin="1" Minimum="25" Maximum="100" Value="{Binding Quality}" Grid.Row="1" Grid.Column="1" />
+                        <Slider Margin="1" Minimum="1" Maximum="100" Width="100" Value="{Binding Scale}" Grid.Row="0" Grid.Column="1" />
+                        <Slider Margin="1" Minimum="25" Maximum="100" Width="100" Value="{Binding Quality}" Grid.Row="1" Grid.Column="1" />
 
                         <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="2">
                             <TextBlock Margin="1" Text="{Binding DesiredWidth}" VerticalAlignment="Center" />

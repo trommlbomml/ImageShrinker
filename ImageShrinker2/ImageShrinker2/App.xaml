@@ -14,6 +14,7 @@
                 <ResourceDictionary Source="Theming/Statusbar.xaml" />
                 <ResourceDictionary Source="Theming/ListView.xaml" />
                 <ResourceDictionary Source="Theming/TextBox.xaml" />
+                <ResourceDictionary Source="Theming/ProgressBar.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
