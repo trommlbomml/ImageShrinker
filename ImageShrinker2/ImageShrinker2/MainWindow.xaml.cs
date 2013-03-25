@@ -1,6 +1,8 @@
 ﻿
 using System.ComponentModel;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Threading;
 using ImageShrinker2.Framework;
 using ImageShrinker2.ViewModels;
@@ -12,6 +14,7 @@ namespace ImageShrinker2
         public MainWindow()
         {
             InitializeComponent();
+            Loaded += OnLoaded;
             DataContext = new ImageShrinkerViewModel {ArchiveName = "BilderArchiv"};
             Closing += MainWindowClosing;
             MessageText = "ImageShrinker: Ruht";
@@ -69,15 +72,19 @@ namespace ImageShrinker2
 
         public Dispatcher UpdateDispatcher { get { return Dispatcher; } }
 
-        private void ListView_Drop(object sender, DragEventArgs e)
+        private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
         {
-        }
+            var closeButton = (Button)Template.FindName("PART_CLOSE", this);
+            closeButton.Click += (s,e) => Close();
 
-        private void ListView_DragOver(object sender, DragEventArgs e)
-        {
-            DataObject dataObject = e.Data as DataObject;
-            if (dataObject == null) return;
-            string t = dataObject.GetText();
+            var minimizeButton = (Button)Template.FindName("PART_MINIMIZE", this);
+            minimizeButton.Click += (s, e) => WindowState = WindowState.Minimized;
+
+            var maxButton = (Button)Template.FindName("PART_MAXIMIZE_RESTORE", this);
+            maxButton.Click += (s, e) => WindowState = WindowState == WindowState.Maximized ? WindowState.Normal : WindowState.Maximized; ;
+
+            var border = (Border)Template.FindName("PART_TITLEBAR", this);
+            border.MouseMove += (s, e) => { if (e.LeftButton == MouseButtonState.Pressed) DragMove(); };
         }
     }
 }
