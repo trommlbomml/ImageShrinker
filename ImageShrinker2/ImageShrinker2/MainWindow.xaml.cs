@@ -3,13 +3,11 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Threading;
-using ImageShrinker2.Framework;
 using ImageShrinker2.ViewModels;
 
 namespace ImageShrinker2
 {
-    public partial class MainWindow : IBackgroundWorkerUi
+    public partial class MainWindow
     {
         public MainWindow()
         {
@@ -17,8 +15,7 @@ namespace ImageShrinker2
             Loaded += OnLoaded;
             DataContext = new ImageShrinkerViewModel {ArchiveName = "BilderArchiv"};
             Closing += MainWindowClosing;
-            MessageText = "ImageShrinker: Ruht";
-            _progressBar.Visibility = Visibility.Collapsed;
+            //MessageText = "ImageShrinker: Ruht";
         }
 
         void MainWindowClosing(object sender, CancelEventArgs e)
@@ -29,48 +26,48 @@ namespace ImageShrinker2
 
         public BackgroundWorker Worker { get; set; }
 
-        public string MessageText
-        {
-            get { return _asyncBackgroundText.Text; }
-            set { _asyncBackgroundText.Text = value; }
-        }
+        //public string MessageText
+        //{
+        //    get { return _asyncBackgroundText.Text; }
+        //    set { _asyncBackgroundText.Text = value; }
+        //}
 
-        public double ProgressMinimum
-        {
-            get { return _progressBar.Minimum; }
-            set { _progressBar.Minimum = value; }
-        }
+        //public double ProgressMinimum
+        //{
+        //    get { return _progressBar.Minimum; }
+        //    set { _progressBar.Minimum = value; }
+        //}
 
-        public double ProgressMaximum
-        {
-            get { return _progressBar.Maximum; }
-            set { _progressBar.Maximum = value; }
-        }
+        //public double ProgressMaximum
+        //{
+        //    get { return _progressBar.Maximum; }
+        //    set { _progressBar.Maximum = value; }
+        //}
 
-        public double ProgressValue
-        {
-            get { return _progressBar.Value; }
-            set { _progressBar.Value = value; }
-        }
+        //public double ProgressValue
+        //{
+        //    get { return _progressBar.Value; }
+        //    set { _progressBar.Value = value; }
+        //}
 
-        public bool IsIndeterminate
-        {
-            get { return _progressBar.IsIndeterminate; }
-            set { _progressBar.IsIndeterminate = value; }
-        }
+        //public bool IsIndeterminate
+        //{
+        //    get { return _progressBar.IsIndeterminate; }
+        //    set { _progressBar.IsIndeterminate = value; }
+        //}
 
-        public void OnWorkerCompleted()
-        {
-            MessageText = "ImageShrinker: Ruht";
-            _progressBar.Visibility = Visibility.Hidden;
-        }
+        //public void OnWorkerCompleted()
+        //{
+        //    MessageText = "ImageShrinker: Ruht";
+        //    _progressBar.Visibility = Visibility.Hidden;
+        //}
 
-        public void AfterAsyncStart()
-        {
-            _progressBar.Visibility = Visibility.Visible;
-        }
+        //public void AfterAsyncStart()
+        //{
+        //    _progressBar.Visibility = Visibility.Visible;
+        //}
 
-        public Dispatcher UpdateDispatcher { get { return Dispatcher; } }
+        //public Dispatcher UpdateDispatcher { get { return Dispatcher; } }
 
         private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
         {

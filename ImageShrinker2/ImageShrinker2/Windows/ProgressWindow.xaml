@@ -11,8 +11,22 @@
         SizeToContent="Height">
 
     <DockPanel>
-        <TextBlock x:Name="_informationText" Margin="10,6,10,2" VerticalAlignment="Center" DockPanel.Dock="Top" TextTrimming="CharacterEllipsis" />
-        <ProgressBar Margin="10,2"  Height="20" x:Name="_progressBar" DockPanel.Dock="Top" />
+        <TextBlock 
+            Margin="10,6,10,2"
+            Text="{Binding MessageText}"
+            VerticalAlignment="Center" 
+            DockPanel.Dock="Top" 
+            TextTrimming="CharacterEllipsis" />
+        
+        <ProgressBar 
+            Minimum="{Binding ProgressMinimum}"
+            Maximum="{Binding ProgressMaximum}"
+            Value="{Binding ProgressValue}"
+            IsIndeterminate="{Binding IsIndeterminate}"
+            Margin="10,2" 
+            Height="20" 
+            DockPanel.Dock="Top" />
+        
         <WrapPanel DockPanel.Dock="Bottom" HorizontalAlignment="Center" Margin="4">
             <Button Content="Abbrechen" IsCancel="True" Padding="10,0" />
         </WrapPanel>

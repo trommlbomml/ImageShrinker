@@ -24,6 +24,7 @@ namespace ImageShrinker2.ViewModels
         private double _compressedSize;
         private DispatcherTimer _timer;
         private bool _imageDataChangedForCalculation;
+        private StatusbarViewModel _statusbar;
 
         public ReadOnlyObservableCollection<ImageViewModel> Images
         { get { return new ReadOnlyObservableCollection<ImageViewModel>(_images); } }
@@ -52,17 +53,25 @@ namespace ImageShrinker2.ViewModels
             _images.CollectionChanged += ImagesOnCollectionChanged;
             Scale = 100.0;
             Quality = 90;
+
+            Statusbar = new StatusbarViewModel();
         }
 
         private void SendPerMailCommandExecuted()
         {
-            EMailSendViewModel eMailSendViewModel = new EMailSendViewModel(this);
-            EMailSendWindow window = new EMailSendWindow
+            var eMailSendViewModel = new EMailSendViewModel(this);
+            var window = new EMailSendWindow
                                          {
                                              DataContext = eMailSendViewModel,
                                              Owner = ViewService.MainWindow,
                                          };
             window.ShowDialog();
+        }
+
+        public StatusbarViewModel Statusbar
+        {
+            get { return _statusbar; }
+            set { SetBackingField("Statusbar", ref _statusbar, value); }
         }
 
         public bool ImageDataChangedForCalculation
@@ -80,7 +89,7 @@ namespace ImageShrinker2.ViewModels
             if (ViewService.AsyncJobRunning) return;
             if (!ImageDataChangedForCalculation) return;
             if (_images.Count(i => i.IsSelected) == 0) return;
-            ViewService.ExecuteAsyncJob(this, (MainWindow)ViewService.MainWindow, new CalculateCompressedSizeJob());
+            ViewService.ExecuteAsyncJob(this, Statusbar, new CalculateCompressedSizeJob());
         }
 
         private void ImagesOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -123,21 +132,23 @@ namespace ImageShrinker2.ViewModels
         {
             string path;
             if (ViewService.ChooseFolderDialog(out path))
-                ViewService.ExecuteAsyncJob(this, new ProgressWindow {Owner = ViewService.MainWindow}, new PackToDirectoryJob(path));
+            {
+                ViewService.ExecuteAsyncJobWithDialog(this, new ProgressDialogViewModel(), new PackToDirectoryJob(path));
+            }
         }
 
         private void SaveToFolderCommandExecuted()
         {
             string path;
             if (ViewService.ChooseFolderDialog(out path))
-                ViewService.ExecuteAsyncJob(this, new ProgressWindow { Owner = ViewService.MainWindow }, new CopyToFolderJob(path));
+                ViewService.ExecuteAsyncJobWithDialog(this, new ProgressDialogViewModel(), new CopyToFolderJob(path));
         }
 
         private void AddFromFolderCommandExecuted()
         {
             string path;
             if (ViewService.ChooseFolderDialog(out path))
-                ViewService.ExecuteAsyncJob(this, new ProgressWindow { Owner = ViewService.MainWindow }, new LoadFromFolderJob(path));
+                ViewService.ExecuteAsyncJobWithDialog(this, new ProgressDialogViewModel(), new LoadFromFolderJob(path));
             SelectFirstImage();
         }
         
@@ -147,9 +158,9 @@ namespace ImageShrinker2.ViewModels
             if(ViewService.ChooseFilesDialog(out files))
             {
                 if (files.Length <= 10)
-                    foreach (string file in files) AddImage(ImageModel.CreateFromFile(file));
+                    foreach (var file in files) AddImage(ImageModel.CreateFromFile(file));
                 else
-                    ViewService.ExecuteAsyncJob(this, new ProgressWindow { Owner = ViewService.MainWindow }, new LoadFromFilesJob(files));
+                    ViewService.ExecuteAsyncJobWithDialog(this, new ProgressDialogViewModel(), new LoadFromFilesJob(files));
             }
 
             SelectFirstImage();

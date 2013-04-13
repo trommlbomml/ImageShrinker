@@ -4,7 +4,6 @@ using System.Security;
 using ImageShrinker2.Framework;
 using ImageShrinker2.Jobs;
 using ImageShrinker2.Properties;
-using ImageShrinker2.Windows;
 
 namespace ImageShrinker2.ViewModels
 {
@@ -39,7 +38,7 @@ namespace ImageShrinker2.ViewModels
 
         private void SendEMailExecuted()
         {
-            ViewService.ExecuteAsyncJob(_imageShrinkerViewModel, new ProgressWindow { Owner = ViewService.EMailSendWindow }, new SendEMailJob(this));
+            ViewService.ExecuteAsyncJobWithDialog(_imageShrinkerViewModel, new ProgressDialogViewModel(), new SendEMailJob(this));
         }
 
         public ReadOnlyObservableCollection<EMailProviderViewModel> Providers

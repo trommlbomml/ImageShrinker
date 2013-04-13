@@ -16,13 +16,13 @@ namespace ImageShrinker2.Framework
 
         protected void InvokeIncreasingProgress(Action action)
         {
-            Ui.UpdateDispatcher.Invoke(DispatcherPriority.Normal, 
+            Application.Current.Dispatcher.Invoke(DispatcherPriority.Normal, 
                                        (Action)delegate { Ui.ProgressValue += 1; action(); });
         }
 
         protected void InvokeIncreasingProgress(string text, Action action)
         {
-            Ui.UpdateDispatcher.Invoke(DispatcherPriority.Normal,
+            Application.Current.Dispatcher.Invoke(DispatcherPriority.Normal,
                                        (Action)delegate { Ui.ProgressValue += 1; Ui.MessageText = text; action(); });
         }
 

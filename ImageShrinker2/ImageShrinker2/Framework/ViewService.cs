@@ -1,8 +1,11 @@
 ﻿
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Windows;
 using System.Windows.Forms;
+using System.Windows.Interop;
 using ImageShrinker2.ViewModels;
 using ImageShrinker2.Windows;
 using Application = System.Windows.Application;
@@ -12,6 +15,11 @@ namespace ImageShrinker2.Framework
 {
     static class ViewService
     {
+        private static readonly Dictionary<Type, Type> ViewModelToWindowMapping = new Dictionary<Type, Type>
+        {
+            {typeof(ProgressDialogViewModel), typeof(ProgressWindow)}
+        };
+ 
         private static Window _mainWindow;
         public static Window MainWindow
         {
@@ -84,9 +92,41 @@ namespace ImageShrinker2.Framework
             return false;
         }
 
+        private static Type GetWindowForViewModel(ViewModel viewModel)
+        {
+            Type windowType;
+            if (!ViewModelToWindowMapping.TryGetValue(viewModel.GetType(), out windowType))
+            {
+                throw new ArgumentException("No Window for ViewModel Type " + viewModel.GetType().FullName);
+            }
+            return windowType;
+        }
+
+        public static void ShowDialog(ViewModel dialog)
+        {
+            var active = WinApiInterop.GetActiveWindow();
+            var activeWindow =
+                Application.Current.Windows.OfType<Window>().SingleOrDefault(
+                    w => new WindowInteropHelper(w).Handle == active);
+            
+            var windowType = GetWindowForViewModel(dialog);
+
+            var window = (Window)Activator.CreateInstance(windowType);
+            window.DataContext = dialog;
+            window.Owner = activeWindow;
+
+            window.ShowDialog();
+        }
+
+        public static void ExecuteAsyncJobWithDialog(ImageShrinkerViewModel context, IBackgroundWorkerUi uiResponder, IAsyncJob job)
+        {
+            ExecuteAsyncJob(context, uiResponder, job);
+            ShowDialog((ViewModel)uiResponder);
+        }
+
         public static void ExecuteAsyncJob(ImageShrinkerViewModel context, IBackgroundWorkerUi uiResponder, IAsyncJob job)
         {
-            BackgroundWorker backgroundWorker = new BackgroundWorker();
+            var backgroundWorker = new BackgroundWorker();
             backgroundWorker.DoWork += job.BackgroundWorkerOnDoWork;
             backgroundWorker.WorkerSupportsCancellation = true;
             backgroundWorker.RunWorkerCompleted += (s, e) =>

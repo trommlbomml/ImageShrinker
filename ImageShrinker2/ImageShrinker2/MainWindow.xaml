@@ -1,6 +1,6 @@
 ﻿<Window x:Class="ImageShrinker2.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Converter="clr-namespace:ImageShrinker2.Converter"
         Title="ImageShrinker 2"
         MinWidth="640"
         MinHeight="480"
@@ -232,12 +232,19 @@
             
         </Grid>
         
-        <StatusBar Grid.Row="3">
+        <StatusBar Grid.Row="3" DataContext="{Binding Statusbar}">
             <StatusBarItem>
-                <TextBlock x:Name="_asyncBackgroundText" Width="200" />
+                <TextBlock Text="{Binding MessageText}" Width="200" />
             </StatusBarItem>
             <StatusBarItem>
-                <ProgressBar x:Name="_progressBar" Width="200" Height="10" Value="50" Minimum="0" Maximum="100" />
+                <ProgressBar 
+                    Width="200" 
+                    Height="10" 
+                    Minimum="{Binding ProgressMinimum}" 
+                    Maximum="{Binding ProgressMaximum}"
+                    Value="{Binding ProgressValue}"
+                    IsIndeterminate="{Binding IsIndeterminate}"
+                    Visibility="{Binding Visible, Converter={x:Static Converter:BoolToVisibilityConverter.Instance}}"/>
             </StatusBarItem>
         </StatusBar>
         

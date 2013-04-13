@@ -14,6 +14,5 @@ namespace ImageShrinker2.Framework
         void OnWorkerCompleted();
         void AfterAsyncStart();
         BackgroundWorker Worker { get; set; }
-        Dispatcher UpdateDispatcher { get; }
     }
 }

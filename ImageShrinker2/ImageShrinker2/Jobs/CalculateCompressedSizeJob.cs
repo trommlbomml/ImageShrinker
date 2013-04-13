@@ -28,22 +28,22 @@ namespace ImageShrinker2.Jobs
         {
             ImageShrinkerViewModel.CompressedSize = 0;
             double size = 0;
-            object lockObject = new object();
-            List<ImageViewModel> selectedImages = ImageShrinkerViewModel.Images.Where(i => i.IsSelected).ToList();
-            ParallelLoopResult result = Parallel.ForEach(selectedImages,
+            var lockObject = new object();
+            var selectedImages = ImageShrinkerViewModel.Images.Where(i => i.IsSelected).ToList();
+            var result = Parallel.ForEach(selectedImages,
                                 (i,p) =>
                                 {
                                     if (Ui.Worker.CancellationPending) p.Stop();
 
-                                    string messageText = "Calculating Compressed Size" +
+                                    var messageText = "Calculating Compressed Size" +
                                                          new string('.', (++_progressCounter) % 4);
                                     IncreasingProgress(messageText);
 
-                                    double t = ImageModel.GetFileSizeScaledInMegaByte(i);
+                                    var t = ImageModel.GetFileSizeScaledInMegaByte(i);
                                     lock (lockObject)
                                         size += t;
                                 });
-
+            Ui.MessageText = "Ready.";
             if (!result.IsCompleted) return;
             ImageShrinkerViewModel.CompressedSize = size;
             ImageShrinkerViewModel.ImageDataChangedForCalculation = false;

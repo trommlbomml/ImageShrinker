@@ -53,16 +53,22 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="WPFLocalizeExtension">
+      <HintPath>..\thirdParty\WpfLocalization\WPFLocalizeExtension.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Converter\BoolToVisibilityConverter.cs" />
     <Compile Include="Framework\AsyncJobBase.cs" />
     <Compile Include="Framework\IAsyncJob.cs" />
     <Compile Include="Framework\IBackgroundWorkerUI.cs" />
+    <Compile Include="Framework\ICloseInteraction.cs" />
     <Compile Include="Framework\ViewService.cs" />
+    <Compile Include="Framework\WinApiInterop.cs" />
     <Compile Include="Framework\WindowExtension.cs" />
     <Compile Include="Jobs\CalculateCompressedSizeJob.cs" />
     <Compile Include="Jobs\LoadFromFilesJob.cs" />
@@ -75,6 +81,8 @@
     <Compile Include="ViewModels\EMailSendViewModel.cs" />
     <Compile Include="ViewModels\ImageShrinkerViewModel.cs" />
     <Compile Include="ViewModels\ImageViewModel.cs" />
+    <Compile Include="ViewModels\ProgressDialogViewModel.cs" />
+    <Compile Include="ViewModels\StatusbarViewModel.cs" />
     <Compile Include="Windows\EMailSendWindow.xaml.cs">
       <DependentUpon>EMailSendWindow.xaml</DependentUpon>
     </Compile>
