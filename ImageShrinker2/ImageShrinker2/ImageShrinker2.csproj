@@ -70,12 +70,12 @@
     <Compile Include="Framework\ViewService.cs" />
     <Compile Include="Framework\WinApiInterop.cs" />
     <Compile Include="Framework\WindowExtension.cs" />
-    <Compile Include="Jobs\CalculateCompressedSizeJob.cs" />
     <Compile Include="Jobs\LoadFromFilesJob.cs" />
     <Compile Include="Jobs\CopyToFolderJob.cs" />
     <Compile Include="Jobs\LoadFromFolderJob.cs" />
     <Compile Include="Jobs\PackToDirectoryJob.cs" />
     <Compile Include="Jobs\SendEMailJob.cs" />
+    <Compile Include="Model\EstimateThread.cs" />
     <Compile Include="Model\ImageModel.cs" />
     <Compile Include="ViewModels\EMailProviderViewModel.cs" />
     <Compile Include="ViewModels\EMailSendViewModel.cs" />

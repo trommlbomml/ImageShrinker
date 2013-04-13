@@ -25,6 +25,7 @@ namespace ImageShrinker2.ViewModels
         private DispatcherTimer _timer;
         private bool _imageDataChangedForCalculation;
         private StatusbarViewModel _statusbar;
+        private EstimateThread _estimate;
 
         public ReadOnlyObservableCollection<ImageViewModel> Images
         { get { return new ReadOnlyObservableCollection<ImageViewModel>(_images); } }
@@ -55,6 +56,7 @@ namespace ImageShrinker2.ViewModels
             Quality = 90;
 
             Statusbar = new StatusbarViewModel();
+            _estimate = new EstimateThread(this);
         }
 
         private void SendPerMailCommandExecuted()
@@ -87,9 +89,13 @@ namespace ImageShrinker2.ViewModels
         private void TimerOnTick(object sender, EventArgs eventArgs)
         {
             if (ViewService.AsyncJobRunning) return;
-            if (!ImageDataChangedForCalculation) return;
             if (_images.Count(i => i.IsSelected) == 0) return;
-            ViewService.ExecuteAsyncJob(this, Statusbar, new CalculateCompressedSizeJob());
+
+            if (ImageDataChangedForCalculation)
+            {
+                _estimate.Start();
+                ImageDataChangedForCalculation = false;
+            }
         }
 
         private void ImagesOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
