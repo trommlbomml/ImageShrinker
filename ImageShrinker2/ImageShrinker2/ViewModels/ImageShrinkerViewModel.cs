@@ -122,7 +122,7 @@ namespace ImageShrinker2.ViewModels
         {
             _maxWidth = 0;
             _maxHeight = 0;
-            foreach (ImageViewModel imageViewModel in _images)
+            foreach (var imageViewModel in _images)
             {
                 if (imageViewModel.Width > _maxWidth)
                 {
