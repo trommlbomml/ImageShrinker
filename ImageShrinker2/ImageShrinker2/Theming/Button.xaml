@@ -8,7 +8,10 @@
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
                     <Border 
+                        Padding="{TemplateBinding Padding}"
                         TextBlock.Foreground="{TemplateBinding Foreground}" 
+                        BorderThickness="1"
+                        BorderBrush="{DynamicResource WindowLightBackgroundBrush}"
                         x:Name="Border" 
                         Background="{DynamicResource WindowLightBackgroundBrush}">
                         <ContentPresenter

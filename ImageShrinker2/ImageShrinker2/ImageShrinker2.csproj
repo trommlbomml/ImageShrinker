@@ -79,14 +79,19 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Strings.en.resx</DependentUpon>
     </Compile>
+    <Compile Include="ViewModels\DialogViewModel.cs" />
     <Compile Include="ViewModels\EMailProviderViewModel.cs" />
     <Compile Include="ViewModels\EMailSendViewModel.cs" />
+    <Compile Include="ViewModels\EnterNameDialogModel.cs" />
     <Compile Include="ViewModels\ImageShrinkerViewModel.cs" />
     <Compile Include="ViewModels\ImageViewModel.cs" />
     <Compile Include="ViewModels\ProgressDialogViewModel.cs" />
     <Compile Include="ViewModels\StatusbarViewModel.cs" />
     <Compile Include="Windows\EMailSendWindow.xaml.cs">
       <DependentUpon>EMailSendWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\EnterNameWindow.xaml.cs">
+      <DependentUpon>EnterNameWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\InfoWindow.xaml.cs">
       <DependentUpon>InfoWindow.xaml</DependentUpon>
@@ -157,6 +162,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Windows\EMailSendWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\EnterNameWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

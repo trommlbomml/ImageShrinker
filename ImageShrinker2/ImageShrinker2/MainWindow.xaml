@@ -113,6 +113,7 @@
             <Button ToolTip="Per E-Mail versenden ..." Command="{Binding SendPerMailCommand}" >
                 <Image Source="Images/email.png" Width="32" Height="32" />
             </Button>
+            <Button Content="Unify" Command="{Binding UnifyImageNamesCommand}" />
         </StackPanel>
 
         <Grid Grid.Row="2">

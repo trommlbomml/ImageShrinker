@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.Text;
 using System.Windows.Media.Imaging;
 using ImageShrinker2.ViewModels;
 using DrawImaging = System.Drawing.Imaging;
@@ -11,6 +12,25 @@ namespace ImageShrinker2.Model
     static class ImageModel
     {
         private static readonly HashSet<string> UniqueUpperFileNames = new HashSet<string>(); 
+
+        private static string GetUnifyNameFormat(int imageCount)
+        {
+            if (imageCount > 9999) return "{0:00000}.jpg";
+            if (imageCount > 999) return "{0:0000}.jpg";
+            if (imageCount > 99) return "{0:000}.jpg";
+            if (imageCount > 9) return "{0:00}.jpg";
+            return "{0}.jpg";
+        }
+
+        public static void UnifyImageNames(ImageShrinkerViewModel imageShrinkerViewModel, string baseName)
+        {
+            var format = baseName + " " + GetUnifyNameFormat(imageShrinkerViewModel.Images.Count);
+            var baseIndex = 0;
+            foreach (var imageViewModel in imageShrinkerViewModel.Images)
+            {
+                imageViewModel.Name = string.Format(format, baseIndex++);
+            }
+        }
 
         public static ImageViewModel CreateFromFile(string fileName)
         {

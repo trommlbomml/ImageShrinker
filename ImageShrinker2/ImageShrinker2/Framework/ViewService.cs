@@ -17,7 +17,8 @@ namespace ImageShrinker2.Framework
     {
         private static readonly Dictionary<Type, Type> ViewModelToWindowMapping = new Dictionary<Type, Type>
         {
-            {typeof(ProgressDialogViewModel), typeof(ProgressWindow)}
+            {typeof(ProgressDialogViewModel), typeof(ProgressWindow)},
+            {typeof(EnterNameDialogModel), typeof(EnterNameWindow)},
         };
  
         private static Window _mainWindow;

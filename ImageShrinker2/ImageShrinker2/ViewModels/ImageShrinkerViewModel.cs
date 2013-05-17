@@ -36,6 +36,7 @@ namespace ImageShrinker2.ViewModels
         public ViewModelCommand PackToFolderCommand { get; private set; }
         public ViewModelCommand ShowInfoCommand { get; private set; }
         public ViewModelCommand SendPerMailCommand { get; private set; }
+        public ViewModelCommand UnifyImageNamesCommand { get; private set; }
 
         public ImageShrinkerViewModel()
         {
@@ -49,6 +50,7 @@ namespace ImageShrinker2.ViewModels
             PackToFolderCommand = new ViewModelCommand(PackToFolderCommandExecuted);
             ShowInfoCommand = new ViewModelCommand(() => new InfoWindow().ShowDialog());
             SendPerMailCommand = new ViewModelCommand(SendPerMailCommandExecuted);
+            UnifyImageNamesCommand = new ViewModelCommand(UnifyImageNamesCommandExecuted);
 
             PropertyChanged += OnViewModelPropertyChanged;
             _images.CollectionChanged += ImagesOnCollectionChanged;
@@ -57,6 +59,18 @@ namespace ImageShrinker2.ViewModels
 
             Statusbar = new StatusbarViewModel();
             _estimate = new EstimateThread(this);
+        }
+
+        private void UnifyImageNamesCommandExecuted()
+        {
+            var viewModel = new EnterNameDialogModel(e => ImageModel.UnifyImageNames(this, e.Value));
+            ViewService.ShowDialog(viewModel);
+        }
+
+        private void UpdateCommandStates()
+        {
+            var anyImagesSelected = _images.Any(i => i.IsSelected);
+            AddFilesCommand.Executable = true;
         }
 
         private void SendPerMailCommandExecuted()
