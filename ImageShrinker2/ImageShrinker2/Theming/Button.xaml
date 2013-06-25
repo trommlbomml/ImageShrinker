@@ -7,25 +7,31 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
-                    <Border 
-                        Padding="{TemplateBinding Padding}"
-                        TextBlock.Foreground="{TemplateBinding Foreground}" 
-                        BorderThickness="1"
-                        BorderBrush="{DynamicResource WindowLightBackgroundBrush}"
-                        x:Name="Border" 
-                        Background="{DynamicResource WindowLightBackgroundBrush}">
-                        <ContentPresenter
-                            Margin="2" 
-                            HorizontalAlignment="Center" 
-                            VerticalAlignment="Center" 
-                            RecognizesAccessKey="True"/>
-                    </Border>
+                    <Grid>
+                        <Border 
+                            Padding="{TemplateBinding Padding}"
+                            TextBlock.Foreground="{TemplateBinding Foreground}" 
+                            BorderThickness="1"
+                            BorderBrush="{DynamicResource WindowLightBackgroundBrush}"
+                            x:Name="Border" 
+                            Background="{DynamicResource WindowLightBackgroundBrush}">
+                            <ContentPresenter
+                                Margin="2" 
+                                HorizontalAlignment="Center" 
+                                VerticalAlignment="Center" 
+                                RecognizesAccessKey="True"/>
+                        </Border>
+                        <Border x:Name="DisableBorder" Visibility="Hidden" Background="Gray" Opacity="0.8" /> 
+                    </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsDefault" Value="true">
                             <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource WindowLightBorderBrush}" />
                         </Trigger>
                         <Trigger Property="IsPressed" Value="true">
                             <Setter TargetName="Border" Property="Background" Value="{StaticResource WindowVeryLightBackgroundBrush}" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter TargetName="DisableBorder" Property="Visibility" Value="Visible" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

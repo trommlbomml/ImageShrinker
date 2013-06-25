@@ -59,6 +59,8 @@ namespace ImageShrinker2.ViewModels
 
             Statusbar = new StatusbarViewModel();
             _estimate = new EstimateThread(this);
+
+            UpdateCommandStates();
         }
 
         private void UnifyImageNamesCommandExecuted()
@@ -71,6 +73,12 @@ namespace ImageShrinker2.ViewModels
         {
             var anyImagesSelected = _images.Any(i => i.IsSelected);
             AddFilesCommand.Executable = true;
+            AddFromFolderCommand.Executable = true;
+            ShowInfoCommand.Executable = true;
+            UnifyImageNamesCommand.Executable = anyImagesSelected;
+            SendPerMailCommand.Executable = anyImagesSelected;
+            SaveToFolderCommand.Executable = anyImagesSelected;
+            PackToFolderCommand.Executable = anyImagesSelected;
         }
 
         private void SendPerMailCommandExecuted()
@@ -116,6 +124,7 @@ namespace ImageShrinker2.ViewModels
         {
             OnPropertyChanged("SelectedImageCount");
             UpdateDesiredSize();
+            UpdateCommandStates();
         }
 
         private void OnViewModelPropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -201,6 +210,7 @@ namespace ImageShrinker2.ViewModels
                 {
                     ImageDataChangedForCalculation = true;
                     OnPropertyChanged("SelectedImageCount");
+                    UpdateCommandStates();
                 }
                 
             };
