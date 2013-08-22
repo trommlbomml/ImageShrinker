@@ -100,6 +100,8 @@ namespace ImageShrinker2.Model
             var messageText = "Calculating Compressed Size" +
                               new string('.', (int)(counter % 4));
 
+            if (Application.Current == null) return;
+
             Application.Current.Dispatcher.Invoke(
                 DispatcherPriority.Normal,
                 (Action)(() =>

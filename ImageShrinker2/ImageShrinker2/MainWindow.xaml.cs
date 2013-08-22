@@ -15,7 +15,6 @@ namespace ImageShrinker2
             Loaded += OnLoaded;
             DataContext = new ImageShrinkerViewModel {ArchiveName = "BilderArchiv"};
             Closing += MainWindowClosing;
-            //MessageText = "ImageShrinker: Ruht";
         }
 
         void MainWindowClosing(object sender, CancelEventArgs e)
@@ -25,49 +24,6 @@ namespace ImageShrinker2
         }
 
         public BackgroundWorker Worker { get; set; }
-
-        //public string MessageText
-        //{
-        //    get { return _asyncBackgroundText.Text; }
-        //    set { _asyncBackgroundText.Text = value; }
-        //}
-
-        //public double ProgressMinimum
-        //{
-        //    get { return _progressBar.Minimum; }
-        //    set { _progressBar.Minimum = value; }
-        //}
-
-        //public double ProgressMaximum
-        //{
-        //    get { return _progressBar.Maximum; }
-        //    set { _progressBar.Maximum = value; }
-        //}
-
-        //public double ProgressValue
-        //{
-        //    get { return _progressBar.Value; }
-        //    set { _progressBar.Value = value; }
-        //}
-
-        //public bool IsIndeterminate
-        //{
-        //    get { return _progressBar.IsIndeterminate; }
-        //    set { _progressBar.IsIndeterminate = value; }
-        //}
-
-        //public void OnWorkerCompleted()
-        //{
-        //    MessageText = "ImageShrinker: Ruht";
-        //    _progressBar.Visibility = Visibility.Hidden;
-        //}
-
-        //public void AfterAsyncStart()
-        //{
-        //    _progressBar.Visibility = Visibility.Visible;
-        //}
-
-        //public Dispatcher UpdateDispatcher { get { return Dispatcher; } }
 
         private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
         {

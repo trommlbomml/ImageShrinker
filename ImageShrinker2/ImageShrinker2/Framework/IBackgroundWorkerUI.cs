@@ -1,6 +1,5 @@
 ﻿
 using System.ComponentModel;
-using System.Windows.Threading;
 
 namespace ImageShrinker2.Framework
 {

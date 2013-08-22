@@ -21,7 +21,7 @@ namespace ImageShrinker2.Jobs
             try
             {
                 IncreasingProgress("Erstelle komprimiertes Archiv...");
-                using (ZipFile zipFile = new ZipFile())
+                using (var zipFile = new ZipFile())
                 {
                     foreach (string file in Directory.GetFiles(tempPathOfImages))
                     {
@@ -35,8 +35,7 @@ namespace ImageShrinker2.Jobs
                 if (Directory.Exists(tempPathOfImages))
                 {
                     IncreasingProgress("Tempverzeichnisse aufräumen...");
-                    foreach (string file in Directory.GetFiles(tempPathOfImages))
-                        File.Delete(file);
+                    foreach (var file in Directory.GetFiles(tempPathOfImages)) File.Delete(file);
                     Directory.Delete(tempPathOfImages);
                 }
             }

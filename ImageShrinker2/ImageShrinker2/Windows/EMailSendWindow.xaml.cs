@@ -14,10 +14,10 @@ namespace ImageShrinker2.Windows
 
         private void PasswordPasswordChanged(object sender, RoutedEventArgs e)
         {
-            EMailSendViewModel eMailSendViewModel = DataContext as EMailSendViewModel;
+            var eMailSendViewModel = DataContext as EMailSendViewModel;
             if (eMailSendViewModel == null) return;
 
-            PasswordBox passwordBox = (PasswordBox) sender;
+            var passwordBox = (PasswordBox) sender;
             eMailSendViewModel.Password = passwordBox.SecurePassword;
         }
     }

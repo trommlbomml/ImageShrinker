@@ -35,8 +35,8 @@ namespace ImageShrinker2.Jobs
             if (!Directory.Exists(targetFolder))
                 Directory.CreateDirectory(targetFolder);
 
-            List<ImageViewModel> selectedImages = ImageShrinkerViewModel.Images.Where(i => i.IsSelected).ToList();
-            foreach (ImageViewModel imageViewModel in selectedImages)
+            var selectedImages = ImageShrinkerViewModel.Images.Where(i => i.IsSelected).ToList();
+            foreach (var imageViewModel in selectedImages)
             {
                 IncreasingProgress(string.Format("Speichere Bild {0} von {1} ...", ++_progressCounter, selectedImages.Count));
                 ImageModel.SaveScaled(imageViewModel, targetFolder);

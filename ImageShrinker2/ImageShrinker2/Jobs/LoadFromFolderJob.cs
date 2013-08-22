@@ -40,12 +40,12 @@ namespace ImageShrinker2.Jobs
                 }
                 else
                 {
-                    string extension = Path.GetExtension(file);
+                    var extension = Path.GetExtension(file);
                     if (string.IsNullOrEmpty(extension)) continue;
                     extension = extension.ToLower();
                     if (extension == ".jpg" || extension == ".jpeg")
                     {
-                        ImageViewModel imageViewModel = ImageModel.CreateFromFile(file);
+                        var imageViewModel = ImageModel.CreateFromFile(file);
                         InvokeIncreasingProgress(() => ImageShrinkerViewModel.AddImage(imageViewModel));
                     }
                 }

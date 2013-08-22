@@ -147,11 +147,9 @@ namespace ImageShrinker2.ViewModels
             _maxHeight = 0;
             foreach (var imageViewModel in _images)
             {
-                if (imageViewModel.Width > _maxWidth)
-                {
-                    _maxWidth = imageViewModel.Width;
-                    _maxHeight = imageViewModel.Height;
-                }
+                if (imageViewModel.Width <= _maxWidth) continue;
+                _maxWidth = imageViewModel.Width;
+                _maxHeight = imageViewModel.Height;
             }
             OnPropertyChanged("DesiredWidth");
             OnPropertyChanged("DesiredHeight");
@@ -206,13 +204,10 @@ namespace ImageShrinker2.ViewModels
             imageViewModel.Parent = this;
             imageViewModel.PropertyChanged += (s, e) =>
             {
-                if (e.PropertyName == "IsSelected")
-                {
-                    ImageDataChangedForCalculation = true;
-                    OnPropertyChanged("SelectedImageCount");
-                    UpdateCommandStates();
-                }
-                
+                if (e.PropertyName != "IsSelected") return;
+                ImageDataChangedForCalculation = true;
+                OnPropertyChanged("SelectedImageCount");
+                UpdateCommandStates();
             };
             _images.Add(imageViewModel);
             ImageDataChangedForCalculation = true;

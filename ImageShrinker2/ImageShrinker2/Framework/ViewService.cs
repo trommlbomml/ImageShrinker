@@ -24,23 +24,13 @@ namespace ImageShrinker2.Framework
         private static Window _mainWindow;
         public static Window MainWindow
         {
-            get
-            {
-                if (_mainWindow == null)
-                    _mainWindow = GetWindow(typeof(MainWindow));
-                return _mainWindow;
-            }
+            get { return _mainWindow ?? (_mainWindow = GetWindow(typeof (MainWindow))); }
         }
 
         private static Window _eMailSendWindow;
         public static Window EMailSendWindow
         {
-            get
-            {
-                if (_eMailSendWindow == null)
-                    _eMailSendWindow = GetWindow(typeof(EMailSendWindow));
-                return _eMailSendWindow;
-            }
+            get { return _eMailSendWindow ?? (_eMailSendWindow = GetWindow(typeof (EMailSendWindow))); }
         }
 
         public static bool AsyncJobRunning { get; private set; }
@@ -58,7 +48,7 @@ namespace ImageShrinker2.Framework
 
         public static bool ChooseFilesDialog(out string[] file)
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog
+            var openFileDialog = new OpenFileDialog
             {
                 Multiselect = true,
                 Filter = "Bilddateien (*.bmp;*.jpg;*.jpeg;*.png)|*.bmp;*.jpg;*.jpeg;*.png",
@@ -77,7 +67,7 @@ namespace ImageShrinker2.Framework
 
         public static bool ChooseFolderDialog(out string folder)
         {
-            FolderBrowserDialog dialog = new FolderBrowserDialog
+            var dialog = new FolderBrowserDialog
             {
                 Description = "Bitte wählen Sie einen Zielordner aus:",
                 ShowNewFolderButton = true,

@@ -28,20 +28,18 @@ namespace ImageShrinker2.Jobs
 
         public override void BackgroundWorkerOnDoWork(object sender, DoWorkEventArgs doWorkEventArgs)
         {
-            foreach (string file in _files)
+            foreach (var file in _files)
             {
                 if (new FileInfo(file).Attributes == FileAttributes.Directory) continue;
 
-                string extension = Path.GetExtension(file);
+                var extension = Path.GetExtension(file);
                 if (string.IsNullOrEmpty(extension)) continue;
 
                 extension = extension.ToLower();
-                if (extension == ".jpg" || extension == ".jpeg")
-                {
-                    ImageViewModel imageViewModel = ImageModel.CreateFromFile(file);
-                    string message = String.Format("Lade Bild {0} von {1}...", ++_count, _files.Length);
-                    InvokeIncreasingProgress(message, () => ImageShrinkerViewModel.AddImage(imageViewModel));
-                }
+                if (extension != ".jpg" && extension != ".jpeg") continue;
+                var imageViewModel = ImageModel.CreateFromFile(file);
+                var message = String.Format("Lade Bild {0} von {1}...", ++_count, _files.Length);
+                InvokeIncreasingProgress(message, () => ImageShrinkerViewModel.AddImage(imageViewModel));
             }
         }
     }

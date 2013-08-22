@@ -29,7 +29,7 @@ namespace ImageShrinker2.Jobs
 
         public override void BackgroundWorkerOnDoWork(object sender, DoWorkEventArgs e)
         {
-            string zipFile = Path.Combine(PackDirectory, ImageShrinkerViewModel.ArchiveName + ".zip");
+            var zipFile = Path.Combine(PackDirectory, ImageShrinkerViewModel.ArchiveName + ".zip");
             MailMessage msg = null;
             _exception = null;
             try
@@ -37,7 +37,7 @@ namespace ImageShrinker2.Jobs
                 base.BackgroundWorkerOnDoWork(sender, e);
 
                 IncreasingProgress("Versende E-Mail...");
-                SmtpClient smtpClient = new SmtpClient
+                var smtpClient = new SmtpClient
                 {
                     Host = _eMailSendViewModel.SelectedProvider.Smpt,
                     Credentials =
@@ -47,13 +47,12 @@ namespace ImageShrinker2.Jobs
                 msg = new MailMessage(_eMailSendViewModel.EMailAdress, _eMailSendViewModel.Adressors, "Test", _eMailSendViewModel.Message);
                 msg.Attachments.Add(new Attachment(zipFile));
 
-                AutoResetEvent sendReadyEvent = new AutoResetEvent(false);
+                var sendReadyEvent = new AutoResetEvent(false);
                 smtpClient.SendCompleted += SmtpClientOnSendCompleted;
                 smtpClient.SendAsync(msg, sendReadyEvent);
                 sendReadyEvent.WaitOne();
 
-                if (_exception != null)
-                    throw _exception;
+                if (_exception != null) throw _exception;
             }
             catch (Exception ex)
             {
