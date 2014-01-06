@@ -112,7 +112,16 @@
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
+                <Border Grid.Row="0" 
+                        Margin="1" 
+                        SnapsToDevicePixels="True"
+                        BorderThickness="1" 
+                        BorderBrush="{DynamicResource ControlBackgroundBrush}">
+                    <TextBlock Text="Keine Bilder" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                </Border>
+
                 <ListView 
+                    Visibility="{Binding HasImages, Converter={x:Static Converter:BoolToVisibilityConverter.Instance}}"
                     Margin="1"
                     ItemsSource="{Binding Images}" 
                     AllowDrop="True"

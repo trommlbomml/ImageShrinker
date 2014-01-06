@@ -60,8 +60,8 @@
             <Setter.Value>
                 <ControlTemplate TargetType="ListView">
                     <Border Name="Border"
-                        BorderThickness="2"
-                        BorderBrush="{DynamicResource WindowLightBackgroundBrush}"
+                        BorderThickness="1"
+                        BorderBrush="{DynamicResource ControlBackgroundBrush}"
                         Background="{DynamicResource WindowBackgroundBrush}">
                         <ScrollViewer Style="{DynamicResource {x:Static GridView.GridViewScrollViewerStyleKey}}">
                             <ItemsPresenter />

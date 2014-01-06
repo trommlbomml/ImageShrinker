@@ -11,6 +11,7 @@
                 <ResourceDictionary Source="Theming/HeaderedContentControl.xaml" />
                 <ResourceDictionary Source="Theming/Scrollbar.xaml" />
                 <ResourceDictionary Source="Theming/ProgressBar.xaml" />
+                <ResourceDictionary Source="Theming/ListView.xaml" />
                 <!--<ResourceDictionary Source="Theming/Slider.xaml" />
                 <ResourceDictionary Source="Theming/Statusbar.xaml" />
                 <ResourceDictionary Source="Theming/ListView.xaml" />

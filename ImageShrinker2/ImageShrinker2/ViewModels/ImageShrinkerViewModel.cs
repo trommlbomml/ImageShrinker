@@ -26,6 +26,7 @@ namespace ImageShrinker2.ViewModels
         private bool _imageDataChangedForCalculation;
         private StatusbarViewModel _statusbar;
         private EstimateThread _estimate;
+        private bool _hasImages;
 
         public ReadOnlyObservableCollection<ImageViewModel> Images
         { get { return new ReadOnlyObservableCollection<ImageViewModel>(_images); } }
@@ -125,6 +126,7 @@ namespace ImageShrinker2.ViewModels
             OnPropertyChanged("SelectedImageCount");
             UpdateDesiredSize();
             UpdateCommandStates();
+            HasImages = _images.Count > 0;
         }
 
         private void OnViewModelPropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -241,6 +243,12 @@ namespace ImageShrinker2.ViewModels
         {
             get { return _compressedSize; }
             set { SetBackingField("CompressedSize", ref _compressedSize, value); }
+        }
+
+        public bool HasImages
+        {
+            get { return _hasImages; }
+            set { SetBackingField("HasImages", ref _hasImages, value); }
         }
 
         public int DesiredWidth { get { return (int) (_maxWidth * Scale * 0.01); } }
