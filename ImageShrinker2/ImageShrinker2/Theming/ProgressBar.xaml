@@ -8,11 +8,10 @@
                     <Grid MinHeight="2" MinWidth="100">
                         <Border 
                             Name="PART_Track" 
-                            Background="{DynamicResource WindowLightBackgroundBrush}" />
-                        
+                            Background="{DynamicResource ControlLightBackgroundBrush}" />
                         <Border 
                             Name="PART_Indicator" 
-                            Background="{DynamicResource WindowVeryLightBackgroundBrush}" 
+                            Background="{DynamicResource ControlBackgroundBrush}" 
                             HorizontalAlignment="Left" />
                     </Grid>
                 </ControlTemplate>

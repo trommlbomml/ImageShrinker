@@ -23,9 +23,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Thumb}">
-                    <Rectangle Stroke="{DynamicResource WindowLightBorderBrush}"
-                               StrokeThickness="1"
-                               Fill="{DynamicResource WindowLightBackgroundBrush}" />
+                    <Rectangle Stroke="{DynamicResource WindowLightBorderBrush}" StrokeThickness="1" Fill="{DynamicResource WindowLightBackgroundBrush}" />
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

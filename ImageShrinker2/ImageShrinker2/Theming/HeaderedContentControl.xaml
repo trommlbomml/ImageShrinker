@@ -13,17 +13,16 @@
                         <Border 
                             Name="Border" 
                             Grid.Row="0" 
-                            Background="{DynamicResource WindowLightBackgroundBrush}">
+                            Background="{DynamicResource ControlBackgroundBrush}">
                             <ContentPresenter 
-                                Grid.Column="1"
                                 ContentSource="Header"
                                 Margin="4" 
                                 RecognizesAccessKey="True" />
                         </Border>
                         <Border 
                             Name="Content"
-                            BorderBrush="{DynamicResource WindowLightBackgroundBrush}"
-                            BorderThickness="2"
+                            BorderBrush="{DynamicResource ControlBackgroundBrush}"
+                            BorderThickness="1"
                             Grid.Row="1" 
                             Background="{DynamicResource WindowBackgroundBrush}">
                             <ContentPresenter />

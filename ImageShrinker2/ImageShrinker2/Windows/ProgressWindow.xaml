@@ -4,7 +4,6 @@
         Width="300"
         ResizeMode="NoResize"
         ShowInTaskbar="False"
-        Background="{DynamicResource WindowBackgroundBrush}"
         WindowStartupLocation="CenterOwner"
         Title="ImageShrinker verarbeitet"
         WindowStyle="SingleBorderWindow"

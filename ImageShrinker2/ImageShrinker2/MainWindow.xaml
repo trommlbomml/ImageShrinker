@@ -7,11 +7,10 @@
         MinHeight="480"
         Width="800"
         Height="600"
-        Style="{DynamicResource MainWindowStyle}"
         WindowStartupLocation="CenterScreen">
     <Window.Resources>
         <DataTemplate x:Key="ImageViewDataTemplate">
-            <Border BorderThickness="1" BorderBrush="Black" Padding="1">
+            <Border BorderThickness="0,0,0,1" BorderBrush="Black" Padding="1">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
@@ -81,22 +80,6 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         
-        <Menu Grid.Row="0">
-            <MenuItem Header="Datei">
-                <MenuItem Header="Bilder hinzufügen ..." Command="{Binding AddFilesCommand}" />
-                <MenuItem Header="Bilder aus Verzeichnis hinzufügen ..." Command="{Binding AddFromFolderCommand}" />
-            </MenuItem>
-            <MenuItem Header="Erstellen">
-                <MenuItem Header="In Verzeichnis erstellen ..." Command="{Binding SaveToFolderCommand}" />
-                <MenuItem Header="Archiv erstellen ..." Command="{Binding PackToFolderCommand}" />
-                <Separator />
-                <MenuItem Header="Per E-Mail versenden ..." Command="{Binding SendPerMailCommand}" />
-            </MenuItem>
-            <MenuItem Header="Info">
-                <MenuItem Header="Über ..." Command="{Binding ShowInfoCommand}" />
-            </MenuItem>
-        </Menu>
-
         <StackPanel Grid.Row="1" Orientation="Horizontal">
             <Button ToolTip="Bilder hinzufügen ..." Command="{Binding AddFilesCommand}" >
                 <Image Source="Images/addimages.png" Width="32" Height="32" />
