@@ -16,11 +16,13 @@ namespace ImageShrinker2.ViewModels
 
         public ViewModelCommand RotateCcwCommand { get; private set; }
         public ViewModelCommand RotateCwCommand { get; private set; }
+        public ViewModelCommand DeleteCommand { get; private set; }
 
         public ImageViewModel()
         {
             RotateCcwCommand = new ViewModelCommand(() => Rotation += 90);
             RotateCwCommand = new ViewModelCommand(() => Rotation -= 90);
+            DeleteCommand = new ViewModelCommand(() => Parent.RemoveImage(this));
         }
 
         public string Name
@@ -45,12 +47,6 @@ namespace ImageShrinker2.ViewModels
         {
             get { return _height; }
             set { SetBackingField("Height", ref _height, value); }
-        }
-
-        public bool IsSelected
-        {
-            get { return _isSelected; }
-            set { SetBackingField("IsSelected", ref _isSelected, value); }
         }
 
         public double Rotation

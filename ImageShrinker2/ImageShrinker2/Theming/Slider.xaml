@@ -19,11 +19,13 @@
         <Setter Property="SnapsToDevicePixels" Value="true"/>
         <Setter Property="OverridesDefaultStyle" Value="true"/>
         <Setter Property="Height" Value="14"/>
-        <Setter Property="Width" Value="8"/>
+        <Setter Property="Width" Value="14"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Thumb}">
-                    <Rectangle Stroke="{DynamicResource WindowLightBorderBrush}" StrokeThickness="1" Fill="{DynamicResource WindowLightBackgroundBrush}" />
+                    <Ellipse Stroke="{DynamicResource ControlBackgroundBrush}" 
+                            StrokeThickness="1" 
+                            Fill="{DynamicResource ControlBackgroundBrush}" />
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -40,15 +42,15 @@
               Name="TopTick"
               SnapsToDevicePixels="True" 
               Placement="Top"
-              Fill="{DynamicResource WindowLightBackgroundBrush}"
-              Height="4"
+              Fill="{DynamicResource ControlLightBackgroundBrush}"
+              Height="8"
               Visibility="Collapsed" />
             <Border 
                 Name="TrackBackground"
                 Margin="0"
-                Height="4"
+                Height="8"
                 Grid.Row="1"
-                Background="{DynamicResource WindowLightBackgroundBrush}" />
+                Background="{DynamicResource ControlLightBackgroundBrush}" />
             <Track Grid.Row="1" Name="PART_Track">
                 <Track.DecreaseRepeatButton>
                     <RepeatButton Style="{StaticResource SliderButtonStyle}" Command="Slider.DecreaseLarge" />
@@ -64,9 +66,9 @@
               Name="BottomTick"
               SnapsToDevicePixels="True" 
               Grid.Row="2"
-              Fill="{DynamicResource WindowLightBackgroundBrush}"
+              Fill="{DynamicResource ControlLightBackgroundBrush}"
               Placement="Bottom"
-              Height="4"
+              Height="8"
               Visibility="Collapsed" />
         </Grid>
         <ControlTemplate.Triggers>

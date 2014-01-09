@@ -2,6 +2,7 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
         xmlns:Converter="clr-namespace:ImageShrinker2.Converter"
+        xmlns:viewModels="clr-namespace:ImageShrinker2.ViewModels"
         Title="ImageShrinker 2.0"
         MinWidth="640"
         MinHeight="480"
@@ -9,30 +10,22 @@
         Height="600"
         WindowStartupLocation="CenterScreen">
     <Window.Resources>
-        <DataTemplate x:Key="ImageViewDataTemplate">
+        
+        <DataTemplate x:Key="ImageViewDataTemplate" DataType="{x:Type viewModels:ImageViewModel}">
             <Border BorderThickness="0,0,0,1" BorderBrush="Black" Padding="1">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     
-                    <CheckBox 
-                        Grid.Column="0" 
-                        Grid.Row="0" 
-                        Grid.RowSpan="2" 
-                        Margin="1"
-                        IsChecked="{Binding IsSelected}" 
-                        VerticalAlignment="Center" />
-                    
                     <TextBlock Margin="1" Grid.Row="0" Grid.Column="1" Text="Name:" />
                     <TextBlock Margin="1" Grid.Row="1" Grid.Column="1" Text="Größe:" />
-
                     <TextBlock Margin="1" Grid.Row="0" Grid.Column="2" Text="{Binding Name}" />
                     <StackPanel Grid.Row="1" Grid.Column="2" Orientation="Horizontal">
                         <TextBlock Margin="1" Text="{Binding Width}" />
@@ -80,23 +73,23 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         
-        <StackPanel Grid.Row="1" Orientation="Horizontal">
-            <Button ToolTip="Bilder hinzufügen ..." Command="{Binding AddFilesCommand}" >
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Background="{DynamicResource ControlLightBackgroundBrush}">
+            <Button ToolTip="Bilder hinzufügen ..." Command="{Binding AddFilesCommand}" Margin="1">
                 <Image Source="Images/addimages.png" Width="32" Height="32" />
             </Button>
-            <Button ToolTip="Bilder aus Verzeichnis hinzufügen ..." Command="{Binding AddFromFolderCommand}" >
+            <Button ToolTip="Bilder aus Verzeichnis hinzufügen ..." Command="{Binding AddFromFolderCommand}" Margin="1">
                 <Image Source="Images/addfromfolder.png" Width="32" Height="32" />
             </Button>
-            <Button ToolTip="In Verzeichnis erstellen ..." Command="{Binding SaveToFolderCommand}" >
+            <Button ToolTip="In Verzeichnis erstellen ..." Command="{Binding SaveToFolderCommand}" Margin="1">
                 <Image Source="Images/savetofolder.png" Width="32" Height="32" />
             </Button>
-            <Button ToolTip="Archiv erstellen ..." Command="{Binding PackToFolderCommand}" >
+            <Button ToolTip="Archiv erstellen ..." Command="{Binding PackToFolderCommand}" Margin="1">
                 <Image Source="Images/savetozip.png" Width="32" Height="32" />
             </Button>
-            <Button ToolTip="Per E-Mail versenden ..." Command="{Binding SendPerMailCommand}" >
+            <Button ToolTip="Per E-Mail versenden ..." Command="{Binding SendPerMailCommand}" Margin="1">
                 <Image Source="Images/email.png" Width="32" Height="32" />
             </Button>
-            <Button Content="Unify" Command="{Binding UnifyImageNamesCommand}" />
+            <Button Content="Unify" Command="{Binding UnifyImageNamesCommand}" Margin="1" />
         </StackPanel>
 
         <Grid Grid.Row="2">
@@ -198,11 +191,11 @@
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
 
-                        <TextBlock Margin="1" Text="Mittlere Bildgröße (Pixel):" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center"/>
-                        <TextBlock Margin="1" Text="Qualität (%):" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" />
+                        <TextBlock Margin="1" Text="Mittlere Bildgröße (Pixel):" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right" />
+                        <TextBlock Margin="1" Text="Qualität (%):" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right" />
 
-                        <Slider Margin="1" Minimum="1" Maximum="100" Width="100" Value="{Binding Scale}" Grid.Row="0" Grid.Column="1" />
-                        <Slider Margin="1" Minimum="25" Maximum="100" Width="100" Value="{Binding Quality}" Grid.Row="1" Grid.Column="1" />
+                        <Slider Margin="1" Minimum="1" Maximum="100" Width="100" Value="{Binding Scale}" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" />
+                        <Slider Margin="1" Minimum="25" Maximum="100" Width="100" Value="{Binding Quality}" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" />
 
                         <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="2">
                             <TextBlock Margin="1" Text="{Binding DesiredWidth}" VerticalAlignment="Center" />

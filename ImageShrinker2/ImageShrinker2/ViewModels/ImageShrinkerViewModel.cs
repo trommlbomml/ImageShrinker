@@ -29,7 +29,9 @@ namespace ImageShrinker2.ViewModels
         private bool _hasImages;
 
         public ReadOnlyObservableCollection<ImageViewModel> Images
-        { get { return new ReadOnlyObservableCollection<ImageViewModel>(_images); } }
+        {
+            get { return new ReadOnlyObservableCollection<ImageViewModel>(_images); }
+        }
 
         public ViewModelCommand AddFilesCommand { get; private set; }
         public ViewModelCommand AddFromFolderCommand { get; private set; }
@@ -64,6 +66,13 @@ namespace ImageShrinker2.ViewModels
             UpdateCommandStates();
         }
 
+        public void RemoveImage(ImageViewModel imageViewModel)
+        {
+            imageViewModel.PropertyChanged -= HandleImagePropertyChanged;
+            _images.Remove(imageViewModel);
+            ImageDataChangedForCalculation = true;
+        }
+
         private void UnifyImageNamesCommandExecuted()
         {
             var viewModel = new EnterNameDialogModel(e => ImageModel.UnifyImageNames(this, e.Value));
@@ -72,7 +81,7 @@ namespace ImageShrinker2.ViewModels
 
         private void UpdateCommandStates()
         {
-            var anyImagesSelected = _images.Any(i => i.IsSelected);
+            var anyImagesSelected = _images.Count > 0;
             AddFilesCommand.Executable = true;
             AddFromFolderCommand.Executable = true;
             ShowInfoCommand.Executable = true;
@@ -112,7 +121,7 @@ namespace ImageShrinker2.ViewModels
         private void TimerOnTick(object sender, EventArgs eventArgs)
         {
             if (ViewService.AsyncJobRunning) return;
-            if (_images.Count(i => i.IsSelected) == 0) return;
+            if (_images.Count == 0) return;
 
             if (ImageDataChangedForCalculation)
             {
@@ -204,15 +213,17 @@ namespace ImageShrinker2.ViewModels
         public void AddImage(ImageViewModel imageViewModel)
         {
             imageViewModel.Parent = this;
-            imageViewModel.PropertyChanged += (s, e) =>
-            {
-                if (e.PropertyName != "IsSelected") return;
-                ImageDataChangedForCalculation = true;
-                OnPropertyChanged("SelectedImageCount");
-                UpdateCommandStates();
-            };
+            imageViewModel.PropertyChanged += HandleImagePropertyChanged;
             _images.Add(imageViewModel);
             ImageDataChangedForCalculation = true;
+        }
+
+        private void HandleImagePropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName != "IsSelected") return;
+            ImageDataChangedForCalculation = true;
+            OnPropertyChanged("SelectedImageCount");
+            UpdateCommandStates();
         }
 
         public long Quality
@@ -253,6 +264,5 @@ namespace ImageShrinker2.ViewModels
 
         public int DesiredWidth { get { return (int) (_maxWidth * Scale * 0.01); } }
         public int DesiredHeight { get { return (int)(_maxHeight * Scale * 0.01); } }
-        public int SelectedImageCount { get { return _images.Count(i => i.IsSelected); } }
     }
 }

@@ -12,12 +12,7 @@
                 <ResourceDictionary Source="Theming/Scrollbar.xaml" />
                 <ResourceDictionary Source="Theming/ProgressBar.xaml" />
                 <ResourceDictionary Source="Theming/ListView.xaml" />
-                <!--<ResourceDictionary Source="Theming/Slider.xaml" />
-                <ResourceDictionary Source="Theming/Statusbar.xaml" />
-                <ResourceDictionary Source="Theming/ListView.xaml" />
-                <ResourceDictionary Source="Theming/TextBox.xaml" />
-                <ResourceDictionary Source="Theming/Window.xaml" />
-                <ResourceDictionary Source="Theming/Menu.xaml" />-->
+                <ResourceDictionary Source="Theming/Slider.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

@@ -40,8 +40,7 @@ namespace ImageShrinker2.Model
                            Height = height,
                            Width = width,
                            Name = GetUniqueFileName(fileName),
-                           Path = fileName,
-                           IsSelected = true,
+                           Path = fileName
                        };
         }
 

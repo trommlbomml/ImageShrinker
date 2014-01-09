@@ -65,17 +65,16 @@ namespace ImageShrinker2.Model
             while (true)
             {
                 if (Idle) continue;
-                var selectedImages = _imageShrinkerViewModel.Images.Where(i => i.IsSelected).ToList();
                 
                 Ui.ProgressMinimum = 1;
-                Ui.ProgressMaximum = selectedImages.Count;
+                Ui.ProgressMaximum = _imageShrinkerViewModel.Images.Count;
                 Ui.ProgressValue = 1;
                 Ui.MessageText = "Calculating Compressed Size";
                 _imageShrinkerViewModel.CompressedSize = 0;
                 Ui.AfterAsyncStart();
                 
                 _sizeSum = 0;
-                Parallel.ForEach(selectedImages, CalculateImage);
+                Parallel.ForEach(_imageShrinkerViewModel.Images, CalculateImage);
 
                 if (DoRestart)
                 {

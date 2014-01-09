@@ -25,7 +25,7 @@ namespace ImageShrinker2.Jobs
             Ui.MessageText = "Deploy Images to Folder...";
             Ui.IsIndeterminate = false;
             Ui.ProgressMinimum = 0;
-            Ui.ProgressMaximum = ImageShrinkerViewModel.SelectedImageCount - 1;
+            Ui.ProgressMaximum = ImageShrinkerViewModel.Images.Count - 1;
             _progressCounter = 0;
         }
 
@@ -35,10 +35,9 @@ namespace ImageShrinker2.Jobs
             if (!Directory.Exists(targetFolder))
                 Directory.CreateDirectory(targetFolder);
 
-            var selectedImages = ImageShrinkerViewModel.Images.Where(i => i.IsSelected).ToList();
-            foreach (var imageViewModel in selectedImages)
+            foreach (var imageViewModel in ImageShrinkerViewModel.Images)
             {
-                IncreasingProgress(string.Format("Speichere Bild {0} von {1} ...", ++_progressCounter, selectedImages.Count));
+                IncreasingProgress(string.Format("Speichere Bild {0} von {1} ...", ++_progressCounter, ImageShrinkerViewModel.Images.Count));
                 ImageModel.SaveScaled(imageViewModel, targetFolder);
             }
         }
